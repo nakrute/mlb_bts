@@ -285,65 +285,38 @@ def get_pitcher_recent_form(pitcher_id: int, num_starts: int = 3) -> dict:
         return {"recent_era": 5.0, "recent_whip": 1.4, "recent_baa": 0.260}
 
 
-# ──────────────────────────────────────────────────────────────────────────────
-# Historical Training Data
-# ──────────────────────────────────────────────────────────────────────────────
-
 def get_historical_game_logs(player_id: int, start_year: int, end_year: int) -> pd.DataFrame:
     """
     Pull multi-season game logs for training.
     Returns DataFrame with one row per game-appearance.
     """
     all_rows = []
-    for year in range(start_year, end_year + 1):
-        try:
-            log = statsapi.player_stat_data(
-                player_id,
-                group="hitting",
-                type="gameLog"
-            )
-            season_start = datetime.strptime(f"{year}-03-01", "%Y-%m-%d")
-            season_end = datetime.strptime(f"{year}-11-01", "%Y-%m-%d")
-            
-            # Safely extract splits from response
-            stats = log.get("stats", [])
-            if not stats:
-                continue
-            splits = stats[0].get("splits", [])
-            if not splits:
-                continue
-            
-            for entry in splits:
-                date_str = entry.get("date", "")
-                try:
-                    entry_date = datetime.strptime(date_str, "%Y-%m-%d")
-                    if not (season_start <= entry_date <= season_end):
-                        continue
-                except:
-                    continue
-                    
-                s = entry.get("stat", {})
-                all_rows.append({
-                    "player_id": player_id,
-                    "date":      date_str,
-                    "season":    year,
-                    "ab":        int(s.get("atBats", 0)),
-                    "hits":      int(s.get("hits", 0)),
-                    "got_hit":   1 if int(s.get("hits", 0)) >= 1 else 0,
-                })
-            time.sleep(0.1)  # be polite to the API
-        except Exception as e:
-            logger.warning(f"Historical log error: player {player_id}, year {year}: {e}")
+    try:
+        log = statsapi.player_stat_data(
+            player_id,
+            group="hitting",
+            type="yearByYear",
+        )
+        splits = log['stats']
+        for entry in splits:
+            all_rows.append({
+                "id": log.get("id", ""),
+                "first_name": log.get("first_name", ""),
+                "last_name": log.get("last_name", ""),
+                "season": entry.get("season", ""),
+                "avg": entry['stats'].get("avg", 0),
+                "atBats": entry['stats'].get("atBats", 0),
+                "obp": entry['stats'].get("obp", 0),
+                "slg": entry['stats'].get("slg", 0),
+                "ops": entry['stats'].get("ops", 0),
+                "homeRuns": entry['stats'].get("homeRuns", 0),
+            })
+    except Exception as e:
+        logger.debug(f"Historical log error: player {player_id}: {e}")
 
     df = pd.DataFrame(all_rows)
-    if not df.empty:
-        df["date"] = pd.to_datetime(df["date"])
+
     return df
-
-
-# ──────────────────────────────────────────────────────────────────────────────
-# Weather (Optional)
-# ──────────────────────────────────────────────────────────────────────────────
 
 BALLPARK_COORDS = {
     "Coors Field":                   (39.756, -104.994),

@@ -71,6 +71,48 @@ PARK_FACTORS = {
     "CWS": 100,
 }
 
+TEAM_NAMES = [
+    "Arizona Diamondbacks",
+    "Oakland Athletics",
+    "Atlanta Braves",
+    "Baltimore Orioles",
+    "Boston Red Sox",
+    "Chicago Cubs",
+    "Chicago White Sox",
+    "Cincinnati Reds",
+    "Cleveland Guardians",
+    "Colorado Rockies",
+    "Detroit Tigers",
+    "Houston Astros",
+    "Kansas City Royals",
+    "Los Angeles Angels",
+    "Los Angeles Dodgers",
+    "Miami Marlins",
+    "Milwaukee Brewers",
+    "Minnesota Twins",
+    "New York Mets",
+    "New York Yankees",
+    "Philadelphia Phillies",
+    "Pittsburgh Pirates",
+    "San Diego Padres",
+    "San Francisco Giants",
+    "Seattle Mariners",
+    "St. Louis Cardinals",
+    "Tampa Bay Rays",
+    "Texas Rangers",
+    "Toronto Blue Jays",
+    "Washington Nationals",
+]
+
+
+TRAIN_FEATURES = [
+    "roll7_avg", "roll7_hit_game_rate", "roll7_ab_per_game", "roll7_k_pct", "roll7_bb_pct",
+    "roll14_avg", "roll14_hit_game_rate", "roll14_ab_per_game",
+    "roll30_avg", "roll30_hit_game_rate", "roll30_ab_per_game",
+    "current_streak", "last5_hit_games", "last10_hit_games",
+    "season_avg", "season_pa", "season_games",
+]
+
 # ──────────────────────────────────────────────
 # Filters — avoid these situations
 # ──────────────────────────────────────────────
@@ -82,4 +124,4 @@ MIN_CAREER_GAMES = 100          # Avoid rookies with no track record
 # ──────────────────────────────────────────────
 # Logging
 # ──────────────────────────────────────────────
-LOG_LEVEL = "INFO"
+LOG_LEVEL = ""  # "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"
