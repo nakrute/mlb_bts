@@ -125,3 +125,50 @@ MIN_CAREER_GAMES = 100          # Avoid rookies with no track record
 # Logging
 # ──────────────────────────────────────────────
 LOG_LEVEL = ""  # "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"
+
+BALLPARK_COORDS = {
+    "Coors Field":                   (39.756, -104.994),
+    "Fenway Park":                   (42.346, -71.097),
+    "Wrigley Field":                 (41.948, -87.655),
+    "Yankee Stadium":                (40.829, -73.926),
+    "Dodger Stadium":                (34.074, -118.240),
+    "Oracle Park":                   (37.778, -122.389),
+    "Petco Park":                    (32.707, -117.157),
+    "T-Mobile Park":                 (47.591, -122.332),
+    "Tropicana Field":               (27.768, -82.653),
+    "loanDepot park":                (25.778, -80.220),
+    "American Family Field":         (43.028, -87.971),
+    "Truist Park":                   (33.891, -84.468),
+    "Globe Life Field":              (32.747, -97.083),
+    "Minute Maid Park":              (29.757, -95.355),
+    "Target Field":                  (44.982, -93.278),
+    "PNC Park":                      (40.447, -80.006),
+    "Camden Yards":                  (39.284, -76.622),
+    "Citizens Bank Park":            (39.906, -75.166),
+    "Great American Ball Park":      (39.097, -84.508),
+}
+
+DOME_STADIUMS = {
+    "Tropicana Field", "loanDepot park", "Rogers Centre",
+    "Globe Life Field", "Minute Maid Park", "T-Mobile Park",  # retractable
+    "American Family Field", "Chase Field",
+}
+
+
+TEAM_ABBREVS = {
+    "Arizona Diamondbacks": "ARI", "Atlanta Braves": "ATL",
+    "Baltimore Orioles": "BAL", "Boston Red Sox": "BOS",
+    "Chicago Cubs": "CHC", "Chicago White Sox": "CWS",
+    "Cincinnati Reds": "CIN", "Cleveland Guardians": "CLE",
+    "Colorado Rockies": "COL", "Detroit Tigers": "DET",
+    "Houston Astros": "HOU", "Kansas City Royals": "KC",
+    "Los Angeles Angels": "LAA", "Los Angeles Dodgers": "LAD",
+    "Miami Marlins": "MIA", "Milwaukee Brewers": "MIL",
+    "Minnesota Twins": "MIN", "New York Mets": "NYM",
+    "New York Yankees": "NYY", "Oakland Athletics": "OAK",
+    "Philadelphia Phillies": "PHI", "Pittsburgh Pirates": "PIT",
+    "San Diego Padres": "SD", "San Francisco Giants": "SF",
+    "Seattle Mariners": "SEA", "St. Louis Cardinals": "STL",
+    "Tampa Bay Rays": "TB", "Texas Rangers": "TEX",
+    "Toronto Blue Jays": "TOR", "Washington Nationals": "WSH",
+}
