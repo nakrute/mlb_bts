@@ -46,7 +46,7 @@ def historical_data_by_today_players(today: str=today) -> pd.DataFrame:
     for count, pid in enumerate(player_ids, start=1):
         try:
             logging.info(f"Processing player {pid} ({count}/{len(player_ids)})")
-            rows = get_historical_game_logs(pid)
+            rows = get_historical_batting_logs(pid)
             if not rows.empty:
                 all_df = pd.concat([all_df, rows], ignore_index=True)
         except Exception as e:
@@ -58,11 +58,7 @@ def historical_data_by_today_players(today: str=today) -> pd.DataFrame:
     return all_df
 
 
-def get_historical_game_logs(player_id: int) -> pd.DataFrame:
-    """
-    Pull multi-season game logs for training.
-    Returns DataFrame with one row per game-appearance.
-    """
+def get_historical_batting_logs(player_id: int) -> pd.DataFrame:
     all_rows = []
     try:
         log = statsapi.player_stat_data(
@@ -74,8 +70,8 @@ def get_historical_game_logs(player_id: int) -> pd.DataFrame:
         for entry in splits:
             all_rows.append({
                 "id": log.get("id", ""),
-                "first_name": log.get("first_name", ""),
-                "last_name": log.get("last_name", ""),
+                "name": f"{log.get('first_name', '')} {log.get('last_name', '')}",
+                "position": log.get("position", ""),
                 "season": entry.get("season", ""),
                 "avg": entry['stats'].get("avg", 0),
                 "hits": entry['stats'].get("hits", 0),
@@ -89,5 +85,42 @@ def get_historical_game_logs(player_id: int) -> pd.DataFrame:
         logger.debug(f"Historical log error: player {player_id}: {e}")
 
     df = pd.DataFrame(all_rows)
+
+    return df
+
+
+def get_historical_pitching_logs(player_df: pd.DataFrame, 
+                                 today: str=today) -> pd.DataFrame:
+    pitcher_df = player_df[player_df['position'] == "P"]
+    pitcher_ids = pitcher_df['id'].unique()
+    all_rows = []
+    for count, player_id in enumerate(pitcher_ids, start=1):
+        logging.info(f"Processing pitcher {player_id} ({count}/{len(pitcher_ids)})")
+        try:
+            log = statsapi.player_stat_data(
+                player_id,
+                group="pitching",
+                type="yearByYear",
+            )
+            splits = log['stats']
+            for entry in splits:
+                all_rows.append({
+                    "id": log.get("id", ""),
+                    "name": f"{log.get('first_name', '')} {log.get('last_name', '')}",
+                    "season": entry.get("season", ""),
+                    "gamesPlayed": entry['stats'].get("gamesPlayed", 0),
+                    "gamesStarted": entry['stats'].get("gamesStarted", 0),
+                    "hits": entry['stats'].get("hits", 0),
+                    "era": entry['stats'].get("era", 0),
+                    "whip": entry['stats'].get("whip", 0),
+                    "shutouts": entry['stats'].get("shutouts", 0),
+                    "walksPer9Inn": entry['stats'].get("walksPer9Inn", 0),
+                    "homeRunsPer9": entry['stats'].get("homeRunsPer9", 0),
+                })
+        except Exception as e:
+            logger.debug(f"Historical log error: player {player_id}: {e}")
+
+    df = pd.DataFrame(all_rows)
+    df.to_csv(f"./data/input/{today}_historical_pitching_data.csv", index=False)
 
     return df

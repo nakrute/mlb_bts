@@ -14,5 +14,7 @@ if __name__ == "__main__":
     logger.info("BTS MODEL — TRAINING PIPELINE")
     logger.info("=" * 60)
     df = df_get.historical_data_by_today_players(today)
+    pitchers = df_get.get_historical_pitching_logs(df)
     print(df)
+    print(pitchers)
     logger.info("Training complete. You can now run: python daily_picks.py")
