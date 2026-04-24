@@ -11,6 +11,7 @@ This script:
 import logging
 import os
 import pickle
+import random
 from datetime import datetime
 
 import numpy as np
@@ -26,6 +27,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 logger = logging.getLogger(__name__)
 
 INPUT_DIR = os.path.join(DATA_DIR, "input")
+RANDOM_SEED = 42
 
 
 def get_today_date_str():
@@ -61,6 +63,10 @@ def load_input_data():
     pitching = pd.read_csv(os.path.join(INPUT_DIR, f"{today_str}_historical_pitching_data.csv"))
     players_games = pd.read_csv(os.path.join(INPUT_DIR, f"{today_str}_players_games.csv"))
     todays_games = pd.read_csv(os.path.join(INPUT_DIR, f"{today_str}_todays_games.csv"))
+    historical = historical.sort_values([c for c in ["id", "season", "game_id"] if c in historical.columns]).reset_index(drop=True)
+    pitching = pitching.sort_values([c for c in ["id", "season"] if c in pitching.columns]).reset_index(drop=True)
+    players_games = players_games.sort_values([c for c in ["player_id", "game_id"] if c in players_games.columns]).reset_index(drop=True)
+    todays_games = todays_games.sort_values([c for c in ["game_id"] if c in todays_games.columns]).reset_index(drop=True)
     
     # Create a game_id to pitcher mapping
     pitcher_map = {}
@@ -192,9 +198,9 @@ def build_training_data(historical: pd.DataFrame, pitching: pd.DataFrame, player
     sort_cols = [c for c in ["game_date", "date", "game_id", "season"] if c in batters.columns] or ["season"]
     has_game_level_rows = any(c in batters.columns for c in ["game_date", "date", "game_id"])
 
-    player_to_games = players_games.groupby("player_id")["game_id"].apply(list).to_dict() if not players_games.empty else {}
+    player_to_games = players_games.groupby("player_id", sort=True)["game_id"].apply(list).to_dict() if not players_games.empty else {}
 
-    for player_id, player_group in batters.groupby("id"):
+    for player_id, player_group in batters.groupby("id", sort=True):
         player_group = player_group.sort_values(sort_cols)
         player_name = player_group.iloc[0].get("name", str(player_id))
         player_pos = player_group.iloc[0].get("position", "DH")
@@ -258,6 +264,8 @@ def prepare_features(df: pd.DataFrame):
 
 def train_model(X: pd.DataFrame, y: pd.Series) -> tuple:
     """Train XGBoost + calibrate."""
+    random.seed(RANDOM_SEED)
+    np.random.seed(RANDOM_SEED)
     base_model = xgb.XGBClassifier(
         n_estimators=200,
         max_depth=4,
@@ -270,8 +278,8 @@ def train_model(X: pd.DataFrame, y: pd.Series) -> tuple:
         reg_lambda=1.0,
         use_label_encoder=False,
         eval_metric="logloss",
-        random_state=42,
-        n_jobs=-1,
+        random_state=RANDOM_SEED,
+        n_jobs=1,
         verbosity=0,
     )
     
@@ -279,13 +287,13 @@ def train_model(X: pd.DataFrame, y: pd.Series) -> tuple:
     min_class = int(y.value_counts().min())
     n_splits = max(2, min(5, min_class))
     logger.info(f"Running {n_splits}-fold cross-validation...")
-    cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)
+    cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=RANDOM_SEED)
     cv_auc = cross_val_score(base_model, X, y, cv=cv, scoring="roc_auc")
     logger.info(f"CV ROC-AUC: {cv_auc.mean():.4f} ± {cv_auc.std():.4f}")
     
     # Calibrate
     logger.info("Calibrating probabilities...")
-    calibrated = CalibratedClassifierCV(base_model, method="isotonic", cv=n_splits)
+    calibrated = CalibratedClassifierCV(base_model, method="isotonic", cv=cv)
     calibrated.fit(X, y)
     
     # Evaluate

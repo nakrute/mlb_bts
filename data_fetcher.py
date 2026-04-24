@@ -11,6 +11,8 @@ today = pd.to_datetime("today").normalize().strftime("%Y-%m-%d")
 def get_todays_games(today: str=today) -> pd.DataFrame:
     games = statsapi.schedule()
     games_df = pd.DataFrame(games) 
+    if not games_df.empty and "game_id" in games_df.columns:
+        games_df = games_df.sort_values("game_id").reset_index(drop=True)
     games_df.to_csv(f"./data/input/{today}_todays_games.csv", index=False)
     return games_df
 
@@ -38,8 +40,9 @@ def get_players_in_games(games_df: pd.DataFrame) -> set:
 def historical_data_by_today_players(today: str=today) -> pd.DataFrame:
     today_games = get_todays_games(today)
     player_id_set = get_players_in_games(today_games)
-    pd.DataFrame(player_id_set, columns=["player_id", "game_id"]).to_csv(f"./data/input/{today}_players_games.csv", index=False)
-    player_ids = [x[0] for x in player_id_set]
+    players_games_df = pd.DataFrame(sorted(player_id_set), columns=["player_id", "game_id"])
+    players_games_df.to_csv(f"./data/input/{today}_players_games.csv", index=False)
+    player_ids = sorted({x[0] for x in player_id_set})
     logger.info(f"Found {len(player_ids)} unique players in today's games")
     
     all_df = pd.DataFrame()
@@ -119,7 +122,7 @@ def get_historical_batting_logs(player_id: int) -> pd.DataFrame:
 def get_historical_pitching_logs(player_df: pd.DataFrame, 
                                  today: str=today) -> pd.DataFrame:
     pitcher_df = player_df[player_df['position'] == "P"]
-    pitcher_ids = pitcher_df['id'].unique()
+    pitcher_ids = sorted(pitcher_df['id'].dropna().unique())
     all_rows = []
     for count, player_id in enumerate(pitcher_ids, start=1):
         logging.info(f"Processing pitcher {player_id} ({count}/{len(pitcher_ids)})")
@@ -232,6 +235,8 @@ def get_historical_pitching_logs(player_df: pd.DataFrame,
             logger.debug(f"Historical log error: player {player_id}: {e}")
 
     df = pd.DataFrame(all_rows)
+    if not df.empty:
+        df = df.sort_values(["id", "season"]).reset_index(drop=True)
     df.to_csv(f"./data/input/{today}_historical_pitching_data.csv", index=False)
 
     return df

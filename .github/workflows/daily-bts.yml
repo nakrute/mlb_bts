@@ -3,8 +3,8 @@ name: Daily BTS Picks
 on:
   workflow_dispatch:
   schedule:
-    # 10:00 AM Eastern during daylight saving time. Adjust seasonally if needed.
-    - cron: "0 14 * * *"
+    # 12:00 PM Eastern during daylight saving time. Adjust seasonally if needed.
+    - cron: "0 16 * * *"
 
 jobs:
   build-and-predict:
@@ -38,6 +38,36 @@ jobs:
 
       - name: Predict today's picks
         run: python predict_todays_picks.py
+
+      - name: Locate latest picks file
+        if: always()
+        id: latest-picks
+        shell: bash
+        run: |
+          latest="$(ls -t picks/picks_*.csv 2>/dev/null | head -n 1 || true)"
+          echo "path=$latest" >> "$GITHUB_OUTPUT"
+
+          {
+            echo "## Daily BTS Picks"
+            echo
+            if [ -n "$latest" ]; then
+              echo "Latest file: \`$latest\`"
+              echo
+              echo "\`\`\`csv"
+              cat "$latest"
+              echo "\`\`\`"
+            else
+              echo "No picks CSV was generated."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload latest picks CSV
+        if: always() && steps.latest-picks.outputs.path != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: latest-bts-picks
+          path: ${{ steps.latest-picks.outputs.path }}
+          if-no-files-found: error
 
       - name: Upload run outputs
         if: always()

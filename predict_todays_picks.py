@@ -46,6 +46,9 @@ def load_data():
     historical = pd.read_csv(os.path.join(INPUT_DIR, f"{today_str}_historical_data.csv"))
     todays_games = pd.read_csv(os.path.join(INPUT_DIR, f"{today_str}_todays_games.csv"))
     players_games = pd.read_csv(os.path.join(INPUT_DIR, f"{today_str}_players_games.csv"))
+    historical = historical.sort_values([c for c in ["id", "season", "game_id"] if c in historical.columns]).reset_index(drop=True)
+    todays_games = todays_games.sort_values([c for c in ["game_id"] if c in todays_games.columns]).reset_index(drop=True)
+    players_games = players_games.sort_values([c for c in ["player_id", "game_id"] if c in players_games.columns]).reset_index(drop=True)
     
     return historical, todays_games, players_games
 
@@ -120,10 +123,10 @@ def build_candidate_rows(historical: pd.DataFrame, todays_games: pd.DataFrame,
     candidates = []
     batters = historical[historical["position"] != "P"].copy()
 
-    today_player_ids = players_games["player_id"].unique()
+    today_player_ids = sorted(players_games["player_id"].dropna().unique())
 
     for player_id in today_player_ids:
-        player_data = batters[batters["id"] == player_id].sort_values("season", ascending=False)
+        player_data = batters[batters["id"] == player_id].sort_values(["season", "id"], ascending=[False, True])
 
         if player_data.empty:
             continue
@@ -225,7 +228,7 @@ def predict_picks(model, feature_cols: list, candidates: pd.DataFrame) -> pd.Dat
         qualified = candidates.copy()
 
     # Sort by probability and select top N
-    top_picks = qualified.sort_values("p_hit", ascending=False).head(TOP_N_PICKS)
+    top_picks = qualified.sort_values(["p_hit", "player_name", "player_id"], ascending=[False, True, True]).head(TOP_N_PICKS)
     
     return top_picks
 
