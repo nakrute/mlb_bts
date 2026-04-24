@@ -1,0 +1,3 @@
+player_id,player_name,position,lineup_position,batter_bat_side,opponent_pitcher_name,opponent_pitcher_hand,platoon_advantage,away_team,home_team,game_datetime,p_hit
+665833,Oneil Cruz,CF,1,,Jacob deGrom,,0,Pittsburgh Pirates,Texas Rangers,2026-04-24T00:05:00Z,1.0
+681624,Andy Pages,CF,6,,Logan Webb,,0,Los Angeles Dodgers,San Francisco Giants,2026-04-23T19:45:00Z,1.0

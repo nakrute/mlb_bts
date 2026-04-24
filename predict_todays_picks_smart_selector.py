@@ -17,7 +17,42 @@ from datetime import datetime
 import pandas as pd
 import numpy as np
 
-from config import DATA_DIR, MODEL_DIR, PICKS_DIR, TOP_N_PICKS, PARK_FACTORS, TEAM_ABBREVS, MIN_SEASON_PA, MIN_HIT_PROBABILITY, MIN_LINEUP_POSITION, MAX_LINEUP_POSITION
+from config import (
+    DATA_DIR, MODEL_DIR, PICKS_DIR, TOP_N_PICKS, PARK_FACTORS, TEAM_ABBREVS,
+    MIN_SEASON_PA, MIN_HIT_PROBABILITY, MIN_LINEUP_POSITION, MAX_LINEUP_POSITION,
+    CONFIDENCE_THRESHOLD,
+)
+
+# Optional smart-selector config. Defaults keep backward compatibility if config.py was not updated.
+try:
+    from config import (
+        ALLOW_SKIP_DAYS,
+        MIN_ADJUSTED_HIT_PROBABILITY,
+        GREEN_LIGHT_THRESHOLD,
+        BORDERLINE_THRESHOLD,
+        MAX_PICKS_PER_GAME,
+        ELITE_PITCHER_ERA,
+        ELITE_PITCHER_WHIP,
+        LATE_LINEUP_PENALTY_START,
+        RISK_PENALTIES,
+    )
+except ImportError:
+    ALLOW_SKIP_DAYS = True
+    MIN_ADJUSTED_HIT_PROBABILITY = MIN_HIT_PROBABILITY
+    GREEN_LIGHT_THRESHOLD = CONFIDENCE_THRESHOLD
+    BORDERLINE_THRESHOLD = MIN_HIT_PROBABILITY
+    MAX_PICKS_PER_GAME = 1
+    ELITE_PITCHER_ERA = 3.30
+    ELITE_PITCHER_WHIP = 1.15
+    LATE_LINEUP_PENALTY_START = 6
+    RISK_PENALTIES = {
+        "elite_pitcher": 0.045,
+        "late_lineup": 0.025,
+        "unconfirmed_lineup": 0.020,
+        "no_platoon_advantage": 0.010,
+        "low_recent_form": 0.020,
+        "pitcher_park": 0.015,
+    }
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
@@ -204,31 +239,129 @@ def build_candidate_rows(historical: pd.DataFrame, todays_games: pd.DataFrame,
         df = df[(df["lineup_position"] >= MIN_LINEUP_POSITION) & (df["lineup_position"] <= MAX_LINEUP_POSITION)]
     return df
 
+def _risk_flags_and_penalty(row: pd.Series) -> tuple[list[str], float]:
+    """Apply conservative BTS risk penalties after the model score.
+
+    p_hit remains the raw calibrated model probability. adjusted_p_hit is used
+    for final streak-survival decisions.
+    """
+    flags = []
+    penalty = 0.0
+
+    pitcher_era = _safe_float(row.get("pitcher_era", 4.50), 4.50)
+    pitcher_whip = _safe_float(row.get("pitcher_whip", 1.30), 1.30)
+    lineup_position = _safe_int(row.get("lineup_position", 0), 0)
+    roll7_hit_rate = _safe_float(row.get("roll7_hit_game_rate", 0.0), 0.0)
+    park_factor = _safe_float(row.get("park_factor", 1.0), 1.0)
+    platoon_advantage = _safe_int(row.get("platoon_advantage", 0), 0)
+
+    if pitcher_era <= ELITE_PITCHER_ERA and pitcher_whip <= ELITE_PITCHER_WHIP:
+        flags.append("elite_pitcher")
+        penalty += RISK_PENALTIES.get("elite_pitcher", 0.0)
+
+    if lineup_position == 0:
+        flags.append("unconfirmed_lineup")
+        penalty += RISK_PENALTIES.get("unconfirmed_lineup", 0.0)
+    elif lineup_position >= LATE_LINEUP_PENALTY_START:
+        flags.append("late_lineup")
+        penalty += RISK_PENALTIES.get("late_lineup", 0.0)
+
+    if platoon_advantage == 0:
+        flags.append("no_platoon_advantage")
+        penalty += RISK_PENALTIES.get("no_platoon_advantage", 0.0)
+
+    if roll7_hit_rate and roll7_hit_rate < 0.50:
+        flags.append("low_recent_form")
+        penalty += RISK_PENALTIES.get("low_recent_form", 0.0)
+
+    if park_factor < 0.98:
+        flags.append("pitcher_park")
+        penalty += RISK_PENALTIES.get("pitcher_park", 0.0)
+
+    return flags, min(penalty, 0.15)
+
+
+def _confidence_tier(adjusted_p_hit: float) -> str:
+    if adjusted_p_hit >= GREEN_LIGHT_THRESHOLD:
+        return "GREEN"
+    if adjusted_p_hit >= BORDERLINE_THRESHOLD:
+        return "BORDERLINE"
+    return "PASS"
+
+
+def _select_diversified_picks(qualified: pd.DataFrame) -> pd.DataFrame:
+    """Select top picks while avoiding too much same-game correlation."""
+    if qualified.empty:
+        return qualified
+
+    selected_rows = []
+    game_counts = {}
+
+    for _, row in qualified.sort_values("adjusted_p_hit", ascending=False).iterrows():
+        game_id = row.get("game_id", "")
+        current_game_count = game_counts.get(game_id, 0)
+
+        if game_id and current_game_count >= MAX_PICKS_PER_GAME:
+            continue
+
+        selected_rows.append(row)
+        if game_id:
+            game_counts[game_id] = current_game_count + 1
+
+        if len(selected_rows) >= TOP_N_PICKS:
+            break
+
+    if len(selected_rows) < min(TOP_N_PICKS, len(qualified)):
+        selected_ids = {r.get("player_id") for r in selected_rows}
+        for _, row in qualified.sort_values("adjusted_p_hit", ascending=False).iterrows():
+            if row.get("player_id") in selected_ids:
+                continue
+            selected_rows.append(row)
+            if len(selected_rows) >= TOP_N_PICKS:
+                break
+
+    return pd.DataFrame(selected_rows)
+
+
 def predict_picks(model, feature_cols: list, candidates: pd.DataFrame) -> pd.DataFrame:
     """
-    Predict hit probabilities for all candidates.
+    Predict hit probabilities, apply BTS risk controls, and choose only qualified picks.
     """
-    # Ensure we have the exact features the model expects
     for col in feature_cols:
         if col not in candidates.columns:
             candidates[col] = 0
+
     X = candidates[feature_cols].fillna(0)
-    
-    # Predict
+
     probs = model.predict_proba(X)[:, 1]
     candidates = candidates.reset_index(drop=True)
     candidates["p_hit"] = probs
-    
-    qualified = candidates[candidates["p_hit"] >= MIN_HIT_PROBABILITY].copy()
+
+    penalties = candidates.apply(_risk_flags_and_penalty, axis=1)
+    candidates["risk_flags"] = penalties.map(lambda x: ",".join(x[0]) if x[0] else "")
+    candidates["risk_penalty"] = penalties.map(lambda x: x[1])
+    candidates["adjusted_p_hit"] = (candidates["p_hit"] - candidates["risk_penalty"]).clip(lower=0, upper=1)
+    candidates["confidence_tier"] = candidates["adjusted_p_hit"].map(_confidence_tier)
+
+    qualified = candidates[
+        (candidates["p_hit"] >= MIN_HIT_PROBABILITY)
+        & (candidates["adjusted_p_hit"] >= MIN_ADJUSTED_HIT_PROBABILITY)
+    ].copy()
+
     if qualified.empty:
-        logger.warning("No candidates cleared MIN_HIT_PROBABILITY=%.2f; returning top raw probabilities instead.", MIN_HIT_PROBABILITY)
+        best = candidates.sort_values("adjusted_p_hit", ascending=False).head(5)
+        logger.warning(
+            "No picks cleared smart selector thresholds "
+            "(raw >= %.2f and adjusted >= %.2f). Best adjusted candidates: %s",
+            MIN_HIT_PROBABILITY,
+            MIN_ADJUSTED_HIT_PROBABILITY,
+            best[["player_name", "p_hit", "adjusted_p_hit", "risk_flags"]].to_dict("records")
+        )
+        if ALLOW_SKIP_DAYS:
+            return candidates.iloc[0:0].copy()
         qualified = candidates.copy()
 
-    # Sort by probability and select top N
-    top_picks = qualified.sort_values("p_hit", ascending=False).head(TOP_N_PICKS)
-    
-    return top_picks
-
+    return _select_diversified_picks(qualified)
 
 def main():
     logger.info("=" * 60)
@@ -259,15 +392,19 @@ def main():
     
     # Display picks
     logger.info(f"\n{'=' * 60}")
-    logger.info(f"TOP {TOP_N_PICKS} PICKS FOR TODAY")
+    logger.info(f"SMART SELECTOR PICKS FOR TODAY (max {TOP_N_PICKS})")
     logger.info(f"{'=' * 60}")
     
+    if picks.empty:
+        logger.info("PASS DAY: no candidate cleared the smart selector thresholds.")
     for i, (_, row) in enumerate(picks.iterrows(), 1):
         logger.info(
             f"{i}. {row['player_name']} ({row['position']}, batting {int(row.get('lineup_position', 0)) or 'TBD'}) | "
             f"Game: {row['away_team']} @ {row['home_team']} | "
             f"Pitcher: {row.get('opponent_pitcher_name', '')} {row.get('opponent_pitcher_hand', '')} | "
-            f"PlatoonAdv={int(row.get('platoon_advantage', 0))} | P(Hit) = {row['p_hit']:.3f}"
+            f"PlatoonAdv={int(row.get('platoon_advantage', 0))} | "
+            f"P(raw)={row['p_hit']:.3f} | P(adj)={row['adjusted_p_hit']:.3f} | "
+            f"Tier={row['confidence_tier']} | Risk={row.get('risk_flags', '') or 'none'}"
         )
     
     # Save picks
@@ -278,7 +415,8 @@ def main():
     output_cols = [
         "player_id", "player_name", "position", "lineup_position",
         "batter_bat_side", "opponent_pitcher_name", "opponent_pitcher_hand", "platoon_advantage",
-        "away_team", "home_team", "game_datetime", "p_hit"
+        "away_team", "home_team", "game_datetime",
+        "p_hit", "risk_penalty", "adjusted_p_hit", "confidence_tier", "risk_flags"
     ]
     output_cols = [c for c in output_cols if c in picks.columns]
     picks[output_cols].to_csv(out_path, index=False)

@@ -20,7 +20,7 @@ from sklearn.metrics import brier_score_loss, classification_report, roc_auc_sco
 from sklearn.model_selection import StratifiedKFold, cross_val_score
 import xgboost as xgb
 
-from config import DATA_DIR, MODEL_DIR, ROLLING_WINDOWS, MIN_AB_FOR_PLATOON, PARK_FACTORS
+from config import DATA_DIR, MODEL_DIR, ROLLING_WINDOWS, MIN_AB_FOR_PLATOON, PARK_FACTORS, MIN_SEASON_PA, MIN_LINEUP_POSITION, MAX_LINEUP_POSITION
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
@@ -83,139 +83,178 @@ def load_input_data():
     return historical, pitching, players_games, todays_games, pitcher_map
 
 
+def _safe_float(value, default=0.0):
+    try:
+        if pd.isna(value):
+            return default
+        return float(value)
+    except Exception:
+        return default
+
+
+def _safe_int(value, default=0):
+    try:
+        if pd.isna(value):
+            return default
+        return int(float(value))
+    except Exception:
+        return default
+
+
+def _hit_game_rate(frame: pd.DataFrame) -> float:
+    if frame.empty or "hits" not in frame:
+        return 0.0
+    return frame["hits"].map(lambda x: 1 if _safe_float(x, 0) >= 1 else 0).mean()
+
+
+def _lineup_quality(lineup_position: int) -> float:
+    lineup_position = _safe_int(lineup_position, 0)
+    if lineup_position <= 0:
+        return 0.55
+    return max(0.0, (10 - lineup_position) / 9.0)
+
+
+def _build_row_from_prior(player_id, player_name, player_pos, current, prior,
+                          pitcher_era=4.0, pitcher_whip=1.2, park_factor=1.0):
+    """Build one row using only data available before the target row."""
+    current_avg = _safe_float(current.get("avg", prior.iloc[-1].get("avg", 0.270) if len(prior) else 0.270), 0.270)
+    current_hits = _safe_int(current.get("hits", 0))
+    current_ab = _safe_int(current.get("atBats", 0))
+
+    lineup_position = _safe_int(current.get("lineup_position", 0), 0)
+    if lineup_position == 0:
+        lineup_position = 5
+
+    row = {
+        "player_id": player_id,
+        "player_name": player_name,
+        "position": player_pos,
+        "current_avg": current_avg,
+        "current_hits": current_hits,
+        "current_at_bats": current_ab,
+        "lineup_position": lineup_position,
+        "is_confirmed_starter": 1 if lineup_position > 0 else 0,
+        "is_top_lineup": 1 if MIN_LINEUP_POSITION <= lineup_position <= 5 else 0,
+        "lineup_quality": _lineup_quality(lineup_position),
+        "batter_bats_left": _safe_int(current.get("batter_bats_left", 0), 0),
+        "batter_bats_right": _safe_int(current.get("batter_bats_right", 0), 0),
+        "batter_switch_hitter": _safe_int(current.get("batter_switch_hitter", 0), 0),
+        "pitcher_throws_left": _safe_int(current.get("pitcher_throws_left", 0), 0),
+        "platoon_advantage": _safe_int(current.get("platoon_advantage", 0), 0),
+    }
+
+    for window in [2, 3, 7, 14, 30]:
+        window_prior = prior.tail(window)
+        total_ab = window_prior["atBats"].map(lambda x: _safe_float(x, 0)).sum() if "atBats" in window_prior else 0
+        total_hits = window_prior["hits"].map(lambda x: _safe_float(x, 0)).sum() if "hits" in window_prior else 0
+        row[f"roll{window}_avg"] = total_hits / total_ab if total_ab > 0 else current_avg
+        row[f"roll{window}_hit_game_rate"] = _hit_game_rate(window_prior) if len(window_prior) else current_avg
+        row[f"roll{window}_ab_per_game"] = total_ab / len(window_prior) if len(window_prior) else current_ab
+
+    prior_ab = prior["atBats"].map(lambda x: _safe_float(x, 0)).sum() if "atBats" in prior else 0
+    prior_hits = prior["hits"].map(lambda x: _safe_float(x, 0)).sum() if "hits" in prior else 0
+
+    row["season_pa"] = int(prior_ab)
+    row["season_hits"] = int(prior_hits)
+    row["season_avg"] = prior_hits / prior_ab if prior_ab > 0 else current_avg
+    row["season_obp"] = _safe_float(prior.iloc[-1].get("obp", 0.320), 0.320) if len(prior) else 0.320
+    row["season_ops"] = _safe_float(prior.iloc[-1].get("ops", 0.720), 0.720) if len(prior) else 0.720
+    row["last_avg"] = _safe_float(prior.iloc[-1].get("avg", current_avg), current_avg) if len(prior) else current_avg
+    row["avg_trending"] = 1 if len(prior) >= 2 and _safe_float(prior.iloc[-1].get("avg", 0), 0) > _safe_float(prior.iloc[0].get("avg", 0), 0) else 0
+    row["last5_hit_games"] = int(prior.tail(5)["hits"].map(lambda x: 1 if _safe_float(x, 0) >= 1 else 0).sum()) if len(prior) and "hits" in prior else 0
+    row["last10_hit_games"] = int(prior.tail(10)["hits"].map(lambda x: 1 if _safe_float(x, 0) >= 1 else 0).sum()) if len(prior) and "hits" in prior else 0
+
+    streak = 0
+    if len(prior) and "hits" in prior:
+        for h in reversed(prior["hits"].tolist()):
+            if _safe_float(h, 0) >= 1:
+                streak += 1
+            else:
+                break
+    row["current_streak"] = streak
+
+    row["park_factor"] = float(park_factor)
+    row["hitter_park_boost"] = 1 if park_factor > 1.02 else 0
+    row["pitcher_era"] = pitcher_era
+    row["pitcher_whip"] = pitcher_whip
+    return row
+
+
 def build_training_data(historical: pd.DataFrame, pitching: pd.DataFrame, players_games: pd.DataFrame, pitcher_map: dict):
     """
-    Build training dataset with lagged features from historical data.
-    Filters out pitchers and focuses on position players.
+    Build training data. If per-game rows are present, target is actual hits>=1.
+    Otherwise falls back to the uploaded season-level data while keeping the same feature schema.
     """
     all_rows = []
-    
-    # Filter out pitchers (position == "P")
     batters = historical[historical["position"] != "P"].copy()
     logger.info(f"Filtered to {len(batters)} non-pitcher rows (removed {len(historical) - len(batters)} pitchers)")
-    
-    # Get games for each player
-    player_to_games = players_games.groupby("player_id")["game_id"].apply(list).to_dict()
-    
-    # Group by player to build game logs
+
+    sort_cols = [c for c in ["game_date", "date", "game_id", "season"] if c in batters.columns] or ["season"]
+    has_game_level_rows = any(c in batters.columns for c in ["game_date", "date", "game_id"])
+
+    player_to_games = players_games.groupby("player_id")["game_id"].apply(list).to_dict() if not players_games.empty else {}
+
     for player_id, player_group in batters.groupby("id"):
-        player_group = player_group.sort_values("season")
-        player_name = player_group.iloc[0]["name"]
-        
-        # Get games for this player
+        player_group = player_group.sort_values(sort_cols)
+        player_name = player_group.iloc[0].get("name", str(player_id))
+        player_pos = player_group.iloc[0].get("position", "DH")
+
+        if len(player_group) < 3:
+            continue
+
+        pitcher_era, pitcher_whip = 4.0, 1.2
         player_games = player_to_games.get(player_id, [])
-        player_pos = player_group.iloc[0]["position"]
-        
-        # For each season, build lagged features
-        for season, season_group in player_group.groupby("season"):
-            season_group = season_group.sort_values("season")
-            
-            # We need at least 3 historical points
-            if len(season_group) < 3:
-                continue
-            
-            # Build feature rows
-            for i in range(2, len(season_group)):
-                prior = season_group.iloc[:i]
-                current = season_group.iloc[i]
-                
-                # Target: did player get a hit? Use average as proxy
-                # Above .265 = likely hit, below that = likely no-hit
-                avg = float(current.get("avg", 0.270))
-                got_hit = 1 if avg >= 0.265 else 0
-                
-                row = {
-                    "player_id": player_id,
-                    "player_name": player_name,
-                    "position": player_pos,
-                    "season": season,
-                    "got_hit": got_hit,
-                    "current_avg": avg,
-                    "current_hits": int(current.get("hits", 0)),
-                    "current_at_bats": int(current.get("atBats", 0)),
-                }
-                
-                # Position scoring: early lineup positions are best (1-5 > 6-9)
-                lineup_pos = ord(player_pos[0]) - ord('0') if player_pos and len(player_pos) > 0 else 9
-                row["is_top_lineup"] = 1 if lineup_pos <= 5 else 0
-                
-                # Lagged rolling stats
-                for window in [2, 3]:
-                    window_prior = prior.tail(window)
-                    if len(window_prior) > 0 and window_prior["atBats"].sum() > 0:
-                        total_ab = window_prior["atBats"].sum()
-                        total_hits = window_prior["hits"].sum()
-                        row[f"roll{window}_avg"] = total_hits / total_ab if total_ab > 0 else 0.250
-                    else:
-                        row[f"roll{window}_avg"] = 0.250
-                
-                # Season cumulative
-                row["season_pa"] = int(prior["atBats"].sum())
-                row["season_hits"] = int(prior["hits"].sum())
-                row["season_avg"] = row["season_hits"] / row["season_pa"] if row["season_pa"] > 0 else 0.250
-                row["season_obp"] = float(prior.iloc[-1].get("obp", 0.320))
-                row["season_ops"] = float(prior.iloc[-1].get("ops", 0.720))
-                
-                # Simple streak/consistency
-                row["last_avg"] = float(prior.iloc[-1].get("avg", 0.270))
-                row["avg_trending"] = 1 if prior.iloc[-1].get("avg", 0) > prior.iloc[0].get("avg", 0) else 0
-                
-                # Hitter park indicator (use average of all park factors for now as proxy)
-                avg_park_factor = np.mean([v for v in PARK_FACTORS.values()]) / 100.0
-                row["hitter_park_boost"] = 1.0 if avg_park_factor > 1.02 else 0.0  # 102+ is good
-                
-                # Pitcher matchup - find the opposing pitcher for this game
-                opponent_pitcher = "Unknown"
-                if player_id in player_to_games:
-                    game_idx = 0  # Assume first game is the one we want (could be improved)
-                if game_idx < len(player_games):
-                    game_id = player_games[game_idx]
-                    if game_id in pitcher_map:
-                        # Determine if player's team is home or away
-                        home_team = pitcher_map[game_id]["home_team"]
-                        # For now, use average of both possible pitchers
-                        h_pitcher = pitcher_map[game_id]["home_pitcher"]
-                        a_pitcher = pitcher_map[game_id]["away_pitcher"]
-                        h_stats = get_pitcher_stats(h_pitcher, pitching)
-                        a_stats = get_pitcher_stats(a_pitcher, pitching)
-                        row["pitcher_era"] = (h_stats["pitcher_era"] + a_stats["pitcher_era"]) / 2.0
-                        row["pitcher_whip"] = (h_stats["pitcher_whip"] + a_stats["pitcher_whip"]) / 2.0
-                    else:
-                        row["pitcher_era"] = 4.0
-                        row["pitcher_whip"] = 1.2
-                else:
-                    row["pitcher_era"] = 4.0
-                    row["pitcher_whip"] = 1.2
-                
-                all_rows.append(row)
-    
+        if player_games and player_games[0] in pitcher_map:
+            info = pitcher_map[player_games[0]]
+            h_stats = get_pitcher_stats(info.get("home_pitcher"), pitching)
+            a_stats = get_pitcher_stats(info.get("away_pitcher"), pitching)
+            pitcher_era = (h_stats["pitcher_era"] + a_stats["pitcher_era"]) / 2.0
+            pitcher_whip = (h_stats["pitcher_whip"] + a_stats["pitcher_whip"]) / 2.0
+
+        avg_park_factor = np.mean(list(PARK_FACTORS.values())) / 100.0
+
+        for i in range(2, len(player_group)):
+            prior = player_group.iloc[:i]
+            current = player_group.iloc[i]
+            row = _build_row_from_prior(player_id, player_name, player_pos, current, prior, pitcher_era, pitcher_whip, avg_park_factor)
+            row["got_hit"] = 1 if (_safe_float(current.get("hits", 0), 0) >= 1 if has_game_level_rows else row["current_avg"] >= 0.265) else 0
+            all_rows.append(row)
+
     df = pd.DataFrame(all_rows)
+    if df.empty:
+        logger.warning("No training rows were built.")
+        return df
     logger.info(f"Built {len(df)} training rows (position players only)")
     logger.info(f"Hit distribution: {df['got_hit'].value_counts().to_dict()}")
+    if not has_game_level_rows:
+        logger.warning("Training target is still season-level fallback. Upgrade train_model.py to fetch batter game logs for true BTS labels.")
     return df
-
 
 def prepare_features(df: pd.DataFrame):
     """Prepare feature matrix and target."""
     feature_cols = [
         "current_avg", "current_hits", "current_at_bats",
         "roll2_avg", "roll3_avg",
+        "roll7_avg", "roll7_hit_game_rate", "roll7_ab_per_game",
+        "roll14_avg", "roll14_hit_game_rate", "roll14_ab_per_game",
+        "roll30_avg", "roll30_hit_game_rate", "roll30_ab_per_game",
         "season_pa", "season_hits", "season_avg", "season_obp", "season_ops",
-        "last_avg", "avg_trending",
-        "is_top_lineup", "hitter_park_boost",
-        "pitcher_era", "pitcher_whip"
+        "last_avg", "avg_trending", "last5_hit_games", "last10_hit_games", "current_streak",
+        "lineup_position", "is_confirmed_starter", "is_top_lineup", "lineup_quality",
+        "batter_bats_left", "batter_bats_right", "batter_switch_hitter",
+        "pitcher_throws_left", "platoon_advantage",
+        "park_factor", "hitter_park_boost", "pitcher_era", "pitcher_whip",
     ]
-    
+
     available_features = [c for c in feature_cols if c in df.columns]
     X = df[available_features].fillna(0)
     y = df["got_hit"].astype(int)
-    
+
     logger.info(f"Using {len(available_features)} features: {available_features}")
     logger.info(f"Training on {len(X)} samples")
     logger.info(f"Class distribution: {y.value_counts().to_dict()}")
-    
-    return X, y, available_features
 
+    return X, y, available_features
 
 def train_model(X: pd.DataFrame, y: pd.Series) -> tuple:
     """Train XGBoost + calibrate."""
@@ -237,14 +276,16 @@ def train_model(X: pd.DataFrame, y: pd.Series) -> tuple:
     )
     
     # Cross-validation
-    logger.info("Running 5-fold cross-validation...")
-    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+    min_class = int(y.value_counts().min())
+    n_splits = max(2, min(5, min_class))
+    logger.info(f"Running {n_splits}-fold cross-validation...")
+    cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)
     cv_auc = cross_val_score(base_model, X, y, cv=cv, scoring="roc_auc")
     logger.info(f"CV ROC-AUC: {cv_auc.mean():.4f} ± {cv_auc.std():.4f}")
     
     # Calibrate
     logger.info("Calibrating probabilities...")
-    calibrated = CalibratedClassifierCV(base_model, method="isotonic", cv=5)
+    calibrated = CalibratedClassifierCV(base_model, method="isotonic", cv=n_splits)
     calibrated.fit(X, y)
     
     # Evaluate
