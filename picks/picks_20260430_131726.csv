@@ -1,0 +1,2 @@
+player_id,player_name,position,lineup_position,batter_bat_side,opponent_pitcher_name,opponent_pitcher_hand,platoon_advantage,matchup_split_avg,matchup_split_ops,matchup_split_pa,away_team,home_team,game_datetime,p_hit
+805808,Kevin McGonigle,SS,1,,Bryce Elder,,0,0.27,0.72,0,Detroit Tigers,Atlanta Braves,2026-04-30T16:15:00Z,0.688624894618988

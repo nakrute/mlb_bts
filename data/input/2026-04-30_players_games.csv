@@ -1,0 +1,581 @@
+player_id,game_id,team_side,team_name,opponent_pitcher_name,opponent_pitcher_hand,batter_bat_side,lineup_position,batting_order_raw,batter_bats_left,batter_bats_right,batter_switch_hitter,pitcher_throws_left,platoon_advantage
+445276,824929,away,Detroit Tigers,Bryce Elder,,,0,,0,0,0,0,0
+472610,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+500779,824524,away,Colorado Rockies,Andrew Abbott,,,0,,0,0,0,0,0
+514888,824848,away,Houston Astros,Chris Bassitt,,,5,500,0,0,0,0,0
+514888,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+516782,825016,away,Kansas City Royals,Jeffrey Springs,,,6,600,0,0,0,0,0
+518876,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,0,,0,0,0,0,0
+518886,823634,home,New York Mets,Miles Mikolas,,,0,,0,0,0,0,0
+519242,824929,home,Atlanta Braves,Framber Valdez,,,0,,0,0,0,0,0
+521692,825016,away,Kansas City Royals,Jeffrey Springs,,,4,400,0,0,0,0,0
+527048,824929,home,Atlanta Braves,Framber Valdez,,,0,,0,0,0,0,0
+542303,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,0,,0,0,0,0,0
+543510,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,9,900,0,0,0,0,0
+543760,823634,home,New York Mets,Miles Mikolas,,,6,600,0,0,0,0,0
+543807,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+543877,824848,away,Houston Astros,Chris Bassitt,,,9,900,0,0,0,0,0
+543877,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+545121,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,5,500,0,0,0,0,0
+547179,824524,away,Colorado Rockies,Andrew Abbott,,,0,,0,0,0,0,0
+547180,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+547180,823472,home,Philadelphia Phillies,Logan Webb,,,3,300,0,0,0,0,0
+548384,823634,home,New York Mets,Miles Mikolas,,,0,,0,0,0,0,0
+552640,824848,home,Baltimore Orioles,Peter Lambert,,,0,,0,0,0,0,0
+552640,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+553869,825016,away,Kansas City Royals,Jeffrey Springs,,,9,900,0,0,0,0,0
+554430,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+554430,823472,home,Philadelphia Phillies,Logan Webb,,,0,,0,0,0,0,0
+571448,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,7,700,0,0,0,0,0
+571578,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+571657,824929,home,Atlanta Braves,Framber Valdez,,,7,700,0,0,0,0,0
+571945,823634,away,Washington Nationals,Freddy Peralta,,,0,,0,0,0,0,0
+572143,824929,away,Detroit Tigers,Bryce Elder,,,0,,0,0,0,0,0
+572233,824848,away,Houston Astros,Chris Bassitt,,,4,400,0,0,0,0,0
+572233,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+572955,824524,home,Cincinnati Reds,Michael Lorenzen,,,0,,0,0,0,0,0
+573009,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+573124,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+573262,824929,home,Atlanta Braves,Framber Valdez,,,0,,0,0,0,0,0
+592332,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+592662,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+592662,823472,away,San Francisco Giants,Cristopher Sánchez,,,0,,0,0,0,0,0
+592773,823391,away,St. Louis Cardinals,Paul Skenes,,,0,,0,0,0,0,0
+593958,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,0,,0,0,0,0,0
+594580,824524,home,Cincinnati Reds,Michael Lorenzen,,,0,,0,0,0,0,0
+595345,824848,away,Houston Astros,Chris Bassitt,,,0,,0,0,0,0,0
+595345,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+596103,823634,home,New York Mets,Miles Mikolas,,,0,,0,0,0,0,0
+596117,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+596117,823472,home,Philadelphia Phillies,Logan Webb,,,0,,0,0,0,0,0
+596133,823634,home,New York Mets,Miles Mikolas,,,0,,0,0,0,0,0
+596142,823795,home,Milwaukee Brewers,Michael Soroka,,,0,,0,0,0,0,0
+602104,823391,away,St. Louis Cardinals,Paul Skenes,,,0,,0,0,0,0,0
+605130,825016,home,Athletics,Noah Cameron,,,0,,0,0,0,0,0
+605135,824848,home,Baltimore Orioles,Peter Lambert,,,0,,0,0,0,0,0
+605135,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+605137,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+605170,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+605244,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,0,,0,0,0,0,0
+605280,823634,home,New York Mets,Miles Mikolas,,,0,,0,0,0,0,0
+605288,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+605288,823472,away,San Francisco Giants,Cristopher Sánchez,,,0,,0,0,0,0,0
+605400,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+605400,823472,home,Philadelphia Phillies,Logan Webb,,,0,,0,0,0,0,0
+605488,825016,home,Athletics,Noah Cameron,,,0,,0,0,0,0,0
+605540,823795,home,Milwaukee Brewers,Michael Soroka,,,0,,0,0,0,0,0
+606303,824929,home,Atlanta Braves,Framber Valdez,,,0,,0,0,0,0,0
+606466,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,2,200,0,0,0,0,0
+606965,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,0,,0,0,0,0,0
+606992,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+606992,823472,away,San Francisco Giants,Cristopher Sánchez,,,0,,0,0,0,0,0
+607208,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+607208,823472,home,Philadelphia Phillies,Logan Webb,,,1,100,0,0,0,0,0
+607455,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+607481,824929,home,Atlanta Braves,Framber Valdez,,,0,,0,0,0,0,0
+607536,824524,away,Colorado Rockies,Andrew Abbott,,,0,,0,0,0,0,0
+607625,825016,away,Kansas City Royals,Jeffrey Springs,,,0,,0,0,0,0,0
+608372,824524,away,Colorado Rockies,Andrew Abbott,,,0,,0,0,0,0,0
+608379,825016,away,Kansas City Royals,Jeffrey Springs,,,0,,0,0,0,0,0
+620443,823634,home,New York Mets,Miles Mikolas,,,8,800,0,0,0,0,0
+621043,824848,away,Houston Astros,Chris Bassitt,,,1,100,0,0,0,0,0
+621043,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+621121,824848,away,Houston Astros,Chris Bassitt,,,0,,0,0,0,0,0
+621121,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+621237,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+621237,823472,home,Philadelphia Phillies,Logan Webb,,,0,,0,0,0,0,0
+621366,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+621366,823472,away,San Francisco Giants,Cristopher Sánchez,,,0,,0,0,0,0,0
+621381,825016,away,Kansas City Royals,Jeffrey Springs,,,0,,0,0,0,0,0
+621383,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+621383,823472,home,Philadelphia Phillies,Logan Webb,,,0,,0,0,0,0,0
+621438,823634,home,New York Mets,Miles Mikolas,,,0,,0,0,0,0,0
+621439,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+621493,824848,home,Baltimore Orioles,Peter Lambert,,,2,200,0,0,0,0,0
+621493,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+621566,824929,home,Atlanta Braves,Framber Valdez,,,4,400,0,0,0,0,0
+622608,824524,away,Colorado Rockies,Andrew Abbott,,,0,,0,0,0,0,0
+622663,825016,home,Athletics,Noah Cameron,,,0,,0,0,0,0,0
+622761,824929,home,Atlanta Braves,Framber Valdez,,,8,800,0,0,0,0,0
+623149,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,0,,0,0,0,0,0
+623168,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+623211,823634,home,New York Mets,Miles Mikolas,,,0,,0,0,0,0,0
+623437,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+623454,824929,away,Detroit Tigers,Bryce Elder,,,0,,0,0,0,0,0
+623474,824524,away,Colorado Rockies,Andrew Abbott,,,0,,0,0,0,0,0
+624413,824848,home,Baltimore Orioles,Peter Lambert,,,4,400,0,0,0,0,0
+624413,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+624431,824524,home,Cincinnati Reds,Michael Lorenzen,,,0,,0,0,0,0,0
+624641,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+624641,823472,home,Philadelphia Phillies,Logan Webb,,,7,700,0,0,0,0,0
+625643,824929,home,Atlanta Braves,Framber Valdez,,,0,,0,0,0,0,0
+640448,824929,away,Detroit Tigers,Bryce Elder,,,0,,0,0,0,0,0
+640455,823634,home,New York Mets,Miles Mikolas,,,0,,0,0,0,0,0
+641343,823795,home,Milwaukee Brewers,Michael Soroka,,,4,400,0,0,0,0,0
+641680,824929,home,Atlanta Braves,Framber Valdez,,,0,,0,0,0,0,0
+641745,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+641745,823472,home,Philadelphia Phillies,Logan Webb,,,0,,0,0,0,0,0
+641755,824929,home,Atlanta Braves,Framber Valdez,,,0,,0,0,0,0,0
+641778,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+641793,823634,away,Washington Nationals,Freddy Peralta,,,0,,0,0,0,0,0
+641816,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+641816,823472,away,San Francisco Giants,Cristopher Sánchez,,,0,,0,0,0,0,0
+641835,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+641835,823472,home,Philadelphia Phillies,Logan Webb,,,0,,0,0,0,0,0
+641927,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+641933,824848,home,Baltimore Orioles,Peter Lambert,,,0,,0,0,0,0,0
+641933,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+641941,824524,home,Cincinnati Reds,Michael Lorenzen,,,0,,0,0,0,0,0
+642086,824929,home,Atlanta Braves,Framber Valdez,,,0,,0,0,0,0,0
+642201,824929,home,Atlanta Braves,Framber Valdez,,,9,900,0,0,0,0,0
+642207,823634,home,New York Mets,Miles Mikolas,,,0,,0,0,0,0,0
+642215,824848,home,Baltimore Orioles,Peter Lambert,,,0,,0,0,0,0,0
+642215,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+642397,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,0,,0,0,0,0,0
+642528,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,0,,0,0,0,0,0
+642547,823634,home,New York Mets,Miles Mikolas,,,0,,0,0,0,0,0
+642701,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,0,,0,0,0,0,0
+642715,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+642715,823472,away,San Francisco Giants,Cristopher Sánchez,,,6,600,0,0,0,0,0
+642851,825016,home,Athletics,Noah Cameron,,,7,700,0,0,0,0,0
+643289,824929,home,Atlanta Braves,Framber Valdez,,,6,600,0,0,0,0,0
+643410,825016,home,Athletics,Noah Cameron,,,0,,0,0,0,0,0
+643446,825016,home,Athletics,Noah Cameron,,,0,,0,0,0,0,0
+643511,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+645277,824929,home,Atlanta Braves,Framber Valdez,,,3,300,0,0,0,0,0
+646240,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+646240,823472,away,San Francisco Giants,Cristopher Sánchez,,,5,500,0,0,0,0,0
+646241,824929,away,Detroit Tigers,Bryce Elder,,,0,,0,0,0,0,0
+647336,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,0,,0,0,0,0,0
+650333,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+650333,823472,away,San Francisco Giants,Cristopher Sánchez,,,3,300,0,0,0,0,0
+650402,824929,away,Detroit Tigers,Bryce Elder,,,2,200,0,0,0,0,0
+650489,824524,away,Colorado Rockies,Andrew Abbott,,,5,500,0,0,0,0,0
+650556,824848,away,Houston Astros,Chris Bassitt,,,0,,0,0,0,0,0
+650556,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+650644,825016,home,Athletics,Noah Cameron,,,0,,0,0,0,0,0
+650859,823795,home,Milwaukee Brewers,Michael Soroka,,,6,600,0,0,0,0,0
+650911,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+650911,823472,home,Philadelphia Phillies,Logan Webb,,,0,,0,0,0,0,0
+650968,823391,away,St. Louis Cardinals,Paul Skenes,,,0,,0,0,0,0,0
+656271,824524,home,Cincinnati Reds,Michael Lorenzen,,,0,,0,0,0,0,0
+656302,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+656305,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+656305,823472,away,San Francisco Giants,Cristopher Sánchez,,,2,200,0,0,0,0,0
+656427,824929,away,Detroit Tigers,Bryce Elder,,,0,,0,0,0,0,0
+656464,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,0,,0,0,0,0,0
+656484,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+656492,823634,away,Washington Nationals,Freddy Peralta,,,0,,0,0,0,0,0
+656546,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+656550,824929,home,Atlanta Braves,Framber Valdez,,,0,,0,0,0,0,0
+656605,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,0,,0,0,0,0,0
+656638,825016,away,Kansas City Royals,Jeffrey Springs,,,0,,0,0,0,0,0
+656730,823795,home,Milwaukee Brewers,Michael Soroka,,,0,,0,0,0,0,0
+656811,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,4,400,0,0,0,0,0
+656849,823634,home,New York Mets,Miles Mikolas,,,0,,0,0,0,0,0
+656941,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+656941,823472,home,Philadelphia Phillies,Logan Webb,,,2,200,0,0,0,0,0
+656986,824848,away,Houston Astros,Chris Bassitt,,,0,,0,0,0,0,0
+656986,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+657041,825016,away,Kansas City Royals,Jeffrey Springs,,,3,300,0,0,0,0,0
+657044,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,0,,0,0,0,0,0
+657277,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+657277,823472,away,San Francisco Giants,Cristopher Sánchez,,,0,,0,0,0,0,0
+657424,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+657424,823472,away,San Francisco Giants,Cristopher Sánchez,,,0,,0,0,0,0,0
+657514,824524,away,Colorado Rockies,Andrew Abbott,,,0,,0,0,0,0,0
+657746,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+660670,824929,home,Atlanta Braves,Framber Valdez,,,1,100,0,0,0,0,0
+660688,823634,away,Washington Nationals,Freddy Peralta,,,0,,0,0,0,0,0
+660761,824929,home,Atlanta Braves,Framber Valdez,,,0,,0,0,0,0,0
+660821,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+660853,824848,away,Houston Astros,Chris Bassitt,,,0,,0,0,0,0,0
+660853,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+661388,823795,home,Milwaukee Brewers,Michael Soroka,,,3,300,0,0,0,0,0
+662139,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+663158,824929,home,Atlanta Braves,Framber Valdez,,,0,,0,0,0,0,0
+663330,824929,away,Detroit Tigers,Bryce Elder,,,0,,0,0,0,0,0
+663368,823795,home,Milwaukee Brewers,Michael Soroka,,,0,,0,0,0,0,0
+663460,825016,away,Kansas City Royals,Jeffrey Springs,,,0,,0,0,0,0,0
+663485,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+663567,824848,away,Houston Astros,Chris Bassitt,,,0,,0,0,0,0,0
+663567,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+663574,824524,home,Cincinnati Reds,Michael Lorenzen,,,0,,0,0,0,0,0
+663586,824929,home,Atlanta Braves,Framber Valdez,,,5,500,0,0,0,0,0
+663604,823795,home,Milwaukee Brewers,Michael Soroka,,,0,,0,0,0,0,0
+663616,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+663623,823634,away,Washington Nationals,Freddy Peralta,,,0,,0,0,0,0,0
+663647,824524,home,Cincinnati Reds,Michael Lorenzen,,,0,,0,0,0,0,0
+663687,825016,home,Athletics,Noah Cameron,,,0,,0,0,0,0,0
+663698,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,0,,0,0,0,0,0
+663738,825016,away,Kansas City Royals,Jeffrey Springs,,,0,,0,0,0,0,0
+663765,823795,home,Milwaukee Brewers,Michael Soroka,,,0,,0,0,0,0,0
+663767,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+663767,823472,home,Philadelphia Phillies,Logan Webb,,,0,,0,0,0,0,0
+663837,824929,away,Detroit Tigers,Bryce Elder,,,7,700,0,0,0,0,0
+663886,824524,home,Cincinnati Reds,Michael Lorenzen,,,6,600,0,0,0,0,0
+663903,824524,home,Cincinnati Reds,Michael Lorenzen,,,0,,0,0,0,0,0
+663947,824929,away,Detroit Tigers,Bryce Elder,,,0,,0,0,0,0,0
+663968,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,8,800,0,0,0,0,0
+663992,823634,away,Washington Nationals,Freddy Peralta,,,0,,0,0,0,0,0
+663993,824524,home,Cincinnati Reds,Michael Lorenzen,,,5,500,0,0,0,0,0
+664040,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,2,200,0,0,0,0,0
+664141,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+664141,823472,away,San Francisco Giants,Cristopher Sánchez,,,0,,0,0,0,0,0
+664199,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,0,,0,0,0,0,0
+664238,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+664238,823472,home,Philadelphia Phillies,Logan Webb,,,0,,0,0,0,0,0
+664285,824929,away,Detroit Tigers,Bryce Elder,,,0,,0,0,0,0,0
+664702,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+664728,825016,away,Kansas City Royals,Jeffrey Springs,,,0,,0,0,0,0,0
+664744,824848,home,Baltimore Orioles,Peter Lambert,,,0,,0,0,0,0,0
+664744,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+664761,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+664761,823472,home,Philadelphia Phillies,Logan Webb,,,0,,0,0,0,0,0
+664854,824848,home,Baltimore Orioles,Peter Lambert,,,0,,0,0,0,0,0
+664854,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+664875,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,0,,0,0,0,0,0
+664954,824524,away,Colorado Rockies,Andrew Abbott,,,0,,0,0,0,0,0
+664983,824524,away,Colorado Rockies,Andrew Abbott,,,0,,0,0,0,0,0
+664991,824848,home,Baltimore Orioles,Peter Lambert,,,0,,0,0,0,0,0
+664991,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+665019,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+665489,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+665561,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+665561,823472,home,Philadelphia Phillies,Logan Webb,,,9,900,0,0,0,0,0
+665622,825016,home,Athletics,Noah Cameron,,,0,,0,0,0,0,0
+665742,823634,home,New York Mets,Miles Mikolas,,,2,200,0,0,0,0,0
+665750,824848,home,Baltimore Orioles,Peter Lambert,,,0,,0,0,0,0,0
+665750,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+665833,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,1,100,0,0,0,0,0
+665877,823391,away,St. Louis Cardinals,Paul Skenes,,,0,,0,0,0,0,0
+665926,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+666126,825016,home,Athletics,Noah Cameron,,,6,600,0,0,0,0,0
+666142,825016,away,Kansas City Royals,Jeffrey Springs,,,0,,0,0,0,0,0
+666152,823795,home,Milwaukee Brewers,Michael Soroka,,,9,900,0,0,0,0,0
+666160,824524,away,Colorado Rockies,Andrew Abbott,,,0,,0,0,0,0,0
+666181,824524,home,Cincinnati Reds,Michael Lorenzen,,,9,900,0,0,0,0,0
+666182,823634,home,New York Mets,Miles Mikolas,,,1,100,0,0,0,0,0
+666200,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+666200,823472,home,Philadelphia Phillies,Logan Webb,,,0,,0,0,0,0,0
+666277,823391,away,St. Louis Cardinals,Paul Skenes,,,0,,0,0,0,0,0
+666397,824524,away,Colorado Rockies,Andrew Abbott,,,0,,0,0,0,0,0
+666464,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+666464,823472,away,San Francisco Giants,Cristopher Sánchez,,,8,800,0,0,0,0,0
+666619,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+666619,823472,away,San Francisco Giants,Cristopher Sánchez,,,0,,0,0,0,0,0
+666661,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,0,,0,0,0,0,0
+666969,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+666969,823472,home,Philadelphia Phillies,Logan Webb,,,4,400,0,0,0,0,0
+666971,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,6,600,0,0,0,0,0
+666974,824848,home,Baltimore Orioles,Peter Lambert,,,0,,0,0,0,0,0
+666974,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+667297,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+667472,824524,home,Cincinnati Reds,Michael Lorenzen,,,0,,0,0,0,0,0
+667670,825016,home,Athletics,Noah Cameron,,,0,,0,0,0,0,0
+668670,824929,away,Detroit Tigers,Bryce Elder,,,9,900,0,0,0,0,0
+668674,825016,away,Kansas City Royals,Jeffrey Springs,,,0,,0,0,0,0,0
+668678,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,0,,0,0,0,0,0
+668709,824524,home,Cincinnati Reds,Michael Lorenzen,,,7,700,0,0,0,0,0
+668715,824524,home,Cincinnati Reds,Michael Lorenzen,,,8,800,0,0,0,0,0
+668804,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,3,300,0,0,0,0,0
+668873,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+668873,823472,away,San Francisco Giants,Cristopher Sánchez,,,0,,0,0,0,0,0
+668885,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+668901,823634,home,New York Mets,Miles Mikolas,,,4,400,0,0,0,0,0
+668904,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+668930,823795,home,Milwaukee Brewers,Michael Soroka,,,2,200,0,0,0,0,0
+668939,824848,home,Baltimore Orioles,Peter Lambert,,,3,300,0,0,0,0,0
+668939,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+668941,823391,away,St. Louis Cardinals,Paul Skenes,,,0,,0,0,0,0,0
+668964,823634,home,New York Mets,Miles Mikolas,,,0,,0,0,0,0,0
+669003,823795,home,Milwaukee Brewers,Michael Soroka,,,1,100,0,0,0,0,0
+669004,823634,home,New York Mets,Miles Mikolas,,,3,300,0,0,0,0,0
+669016,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+669016,823472,home,Philadelphia Phillies,Logan Webb,,,5,500,0,0,0,0,0
+669062,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+669062,823472,away,San Francisco Giants,Cristopher Sánchez,,,0,,0,0,0,0,0
+669084,823795,home,Milwaukee Brewers,Michael Soroka,,,0,,0,0,0,0,0
+669127,825016,home,Athletics,Noah Cameron,,,2,200,0,0,0,0,0
+669160,823391,away,St. Louis Cardinals,Paul Skenes,,,0,,0,0,0,0,0
+669194,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,0,,0,0,0,0,0
+669211,824848,home,Baltimore Orioles,Peter Lambert,,,0,,0,0,0,0,0
+669211,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+669236,824848,home,Baltimore Orioles,Peter Lambert,,,6,600,0,0,0,0,0
+669236,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+669270,825016,home,Athletics,Noah Cameron,,,0,,0,0,0,0,0
+669276,824929,home,Atlanta Braves,Framber Valdez,,,0,,0,0,0,0,0
+669288,824848,away,Houston Astros,Chris Bassitt,,,0,,0,0,0,0,0
+669288,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+669330,824848,home,Baltimore Orioles,Peter Lambert,,,0,,0,0,0,0,0
+669330,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+669357,823391,away,St. Louis Cardinals,Paul Skenes,,,5,500,0,0,0,0,0
+669358,824848,home,Baltimore Orioles,Peter Lambert,,,0,,0,0,0,0,0
+669358,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+669372,825016,home,Athletics,Noah Cameron,,,0,,0,0,0,0,0
+669373,824929,away,Detroit Tigers,Bryce Elder,,,0,,0,0,0,0,0
+669387,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,0,,0,0,0,0,0
+669461,823391,away,St. Louis Cardinals,Paul Skenes,,,0,,0,0,0,0,0
+669467,823391,away,St. Louis Cardinals,Paul Skenes,,,0,,0,0,0,0,0
+669477,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+669477,823472,away,San Francisco Giants,Cristopher Sánchez,,,4,400,0,0,0,0,0
+669620,825016,home,Athletics,Noah Cameron,,,0,,0,0,0,0,0
+669699,824848,away,Houston Astros,Chris Bassitt,,,0,,0,0,0,0,0
+669699,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+669724,824929,away,Detroit Tigers,Bryce Elder,,,0,,0,0,0,0,0
+669920,824848,away,Houston Astros,Chris Bassitt,,,0,,0,0,0,0,0
+669920,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+670167,825016,away,Kansas City Royals,Jeffrey Springs,,,0,,0,0,0,0,0
+670242,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+670329,824848,home,Baltimore Orioles,Peter Lambert,,,0,,0,0,0,0,0
+670329,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+670541,824848,away,Houston Astros,Chris Bassitt,,,2,200,0,0,0,0,0
+670541,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+670623,824848,away,Houston Astros,Chris Bassitt,,,3,300,0,0,0,0,0
+670623,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+670770,824524,home,Cincinnati Reds,Michael Lorenzen,,,1,100,0,0,0,0,0
+670990,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,0,,0,0,0,0,0
+671056,823391,away,St. Louis Cardinals,Paul Skenes,,,2,200,0,0,0,0,0
+671096,824524,home,Cincinnati Reds,Michael Lorenzen,,,0,,0,0,0,0,0
+671218,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+671218,823472,away,San Francisco Giants,Cristopher Sánchez,,,1,100,0,0,0,0,0
+671277,823634,away,Washington Nationals,Freddy Peralta,,,2,200,0,0,0,0,0
+671289,824524,away,Colorado Rockies,Andrew Abbott,,,4,400,0,0,0,0,0
+671382,824848,home,Baltimore Orioles,Peter Lambert,,,0,,0,0,0,0,0
+671382,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+671732,825016,home,Athletics,Noah Cameron,,,9,900,0,0,0,0,0
+671737,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+671739,824929,home,Atlanta Braves,Framber Valdez,,,0,,0,0,0,0,0
+672012,823795,home,Milwaukee Brewers,Michael Soroka,,,5,500,0,0,0,0,0
+672275,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+672275,823472,away,San Francisco Giants,Cristopher Sánchez,,,9,900,0,0,0,0,0
+672335,823634,away,Washington Nationals,Freddy Peralta,,,0,,0,0,0,0,0
+672456,824929,away,Detroit Tigers,Bryce Elder,,,0,,0,0,0,0,0
+672580,825016,away,Kansas City Royals,Jeffrey Springs,,,1,100,0,0,0,0,0
+672695,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,1,100,0,0,0,0,0
+672761,824929,away,Detroit Tigers,Bryce Elder,,,0,,0,0,0,0,0
+672820,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+672960,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+673237,824848,away,Houston Astros,Chris Bassitt,,,6,600,0,0,0,0,0
+673237,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+675659,823795,home,Milwaukee Brewers,Michael Soroka,,,8,800,0,0,0,0,0
+675660,823795,home,Milwaukee Brewers,Michael Soroka,,,0,,0,0,0,0,0
+675848,824524,away,Colorado Rockies,Andrew Abbott,,,0,,0,0,0,0,0
+675989,824848,away,Houston Astros,Chris Bassitt,,,0,,0,0,0,0,0
+675989,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+676254,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+676254,823472,away,San Francisco Giants,Cristopher Sánchez,,,0,,0,0,0,0,0
+676391,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+676428,824929,away,Detroit Tigers,Bryce Elder,,,0,,0,0,0,0,0
+676475,823391,away,St. Louis Cardinals,Paul Skenes,,,3,300,0,0,0,0,0
+676510,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+676510,823472,home,Philadelphia Phillies,Logan Webb,,,0,,0,0,0,0,0
+676571,823634,away,Washington Nationals,Freddy Peralta,,,0,,0,0,0,0,0
+676572,823634,home,New York Mets,Miles Mikolas,,,0,,0,0,0,0,0
+676617,823391,away,St. Louis Cardinals,Paul Skenes,,,0,,0,0,0,0,0
+676684,824929,away,Detroit Tigers,Bryce Elder,,,0,,0,0,0,0,0
+676755,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,0,,0,0,0,0,0
+676775,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+676775,823472,away,San Francisco Giants,Cristopher Sánchez,,,0,,0,0,0,0,0
+676879,823795,home,Milwaukee Brewers,Michael Soroka,,,0,,0,0,0,0,0
+676914,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+676917,823634,away,Washington Nationals,Freddy Peralta,,,0,,0,0,0,0,0
+677588,823634,away,Washington Nationals,Freddy Peralta,,,5,500,0,0,0,0,0
+677595,823634,home,New York Mets,Miles Mikolas,,,9,900,0,0,0,0,0
+677865,823391,away,St. Louis Cardinals,Paul Skenes,,,0,,0,0,0,0,0
+677942,824848,home,Baltimore Orioles,Peter Lambert,,,9,900,0,0,0,0,0
+677942,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+677950,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,8,800,0,0,0,0,0
+677951,825016,away,Kansas City Royals,Jeffrey Springs,,,2,200,0,0,0,0,0
+677952,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,0,,0,0,0,0,0
+677955,824524,away,Colorado Rockies,Andrew Abbott,,,0,,0,0,0,0,0
+677956,824524,home,Cincinnati Reds,Michael Lorenzen,,,0,,0,0,0,0,0
+678022,825016,home,Athletics,Noah Cameron,,,0,,0,0,0,0,0
+678218,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+678391,823634,away,Washington Nationals,Freddy Peralta,,,6,600,0,0,0,0,0
+678489,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,0,,0,0,0,0,0
+678554,823634,away,Washington Nationals,Freddy Peralta,,,0,,0,0,0,0,0
+678662,824524,away,Colorado Rockies,Andrew Abbott,,,8,800,0,0,0,0,0
+678906,824848,away,Houston Astros,Chris Bassitt,,,0,,0,0,0,0,0
+678906,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+679358,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+679529,824929,away,Detroit Tigers,Bryce Elder,,,5,500,0,0,0,0,0
+679775,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+679775,823472,home,Philadelphia Phillies,Logan Webb,,,0,,0,0,0,0,0
+679845,825016,away,Kansas City Royals,Jeffrey Springs,,,5,500,0,0,0,0,0
+679883,825016,away,Kansas City Royals,Jeffrey Springs,,,0,,0,0,0,0,0
+680573,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+680574,824524,home,Cincinnati Reds,Michael Lorenzen,,,2,200,0,0,0,0,0
+680694,824848,home,Baltimore Orioles,Peter Lambert,,,0,,0,0,0,0,0
+680694,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+680728,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,4,400,0,0,0,0,0
+680730,823634,away,Washington Nationals,Freddy Peralta,,,0,,0,0,0,0,0
+680742,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+680742,823472,home,Philadelphia Phillies,Logan Webb,,,0,,0,0,0,0,0
+680755,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+680767,824524,away,Colorado Rockies,Andrew Abbott,,,0,,0,0,0,0,0
+680777,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+680779,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,9,900,0,0,0,0,0
+680869,825016,home,Athletics,Noah Cameron,,,8,800,0,0,0,0,0
+681035,823634,home,New York Mets,Miles Mikolas,,,0,,0,0,0,0,0
+681082,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+681082,823472,home,Philadelphia Phillies,Logan Webb,,,6,600,0,0,0,0,0
+681151,824848,away,Houston Astros,Chris Bassitt,,,0,,0,0,0,0,0
+681151,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+681198,824524,away,Colorado Rockies,Andrew Abbott,,,6,600,0,0,0,0,0
+681293,824848,away,Houston Astros,Chris Bassitt,,,0,,0,0,0,0,0
+681293,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+681297,824848,home,Baltimore Orioles,Peter Lambert,,,7,700,0,0,0,0,0
+681297,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+681347,824848,away,Houston Astros,Chris Bassitt,,,0,,0,0,0,0,0
+681347,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+681402,823634,away,Washington Nationals,Freddy Peralta,,,0,,0,0,0,0,0
+681481,824929,away,Detroit Tigers,Bryce Elder,,,6,600,0,0,0,0,0
+681517,823391,away,St. Louis Cardinals,Paul Skenes,,,0,,0,0,0,0,0
+681546,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+681810,823634,home,New York Mets,Miles Mikolas,,,0,,0,0,0,0,0
+681892,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+681895,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,0,,0,0,0,0,0
+681982,823795,home,Milwaukee Brewers,Michael Soroka,,,0,,0,0,0,0,0
+682052,825016,home,Athletics,Noah Cameron,,,0,,0,0,0,0,0
+682254,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,0,,0,0,0,0,0
+682626,823634,home,New York Mets,Miles Mikolas,,,0,,0,0,0,0,0
+682818,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+682825,824524,home,Cincinnati Reds,Michael Lorenzen,,,0,,0,0,0,0,0
+682829,824524,home,Cincinnati Reds,Michael Lorenzen,,,3,300,0,0,0,0,0
+682842,823795,home,Milwaukee Brewers,Michael Soroka,,,0,,0,0,0,0,0
+682928,823634,away,Washington Nationals,Freddy Peralta,,,4,400,0,0,0,0,0
+682985,824929,away,Detroit Tigers,Bryce Elder,,,4,400,0,0,0,0,0
+682998,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,3,300,0,0,0,0,0
+683002,824848,home,Baltimore Orioles,Peter Lambert,,,1,100,0,0,0,0,0
+683002,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+683083,823634,away,Washington Nationals,Freddy Peralta,,,7,700,0,0,0,0,0
+683146,823634,home,New York Mets,Miles Mikolas,,,5,500,0,0,0,0,0
+683175,824524,home,Cincinnati Reds,Michael Lorenzen,,,0,,0,0,0,0,0
+683232,825016,away,Kansas City Royals,Jeffrey Springs,,,0,,0,0,0,0,0
+683742,824524,home,Cincinnati Reds,Michael Lorenzen,,,0,,0,0,0,0,0
+683766,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+683766,823472,away,San Francisco Giants,Cristopher Sánchez,,,0,,0,0,0,0,0
+685299,824524,away,Colorado Rockies,Andrew Abbott,,,0,,0,0,0,0,0
+686217,823795,home,Milwaukee Brewers,Michael Soroka,,,7,700,0,0,0,0,0
+686452,823634,away,Washington Nationals,Freddy Peralta,,,8,800,0,0,0,0,0
+686469,825016,away,Kansas City Royals,Jeffrey Springs,,,0,,0,0,0,0,0
+686555,825016,away,Kansas City Royals,Jeffrey Springs,,,8,800,0,0,0,0,0
+686668,824524,away,Colorado Rockies,Andrew Abbott,,,2,200,0,0,0,0,0
+686681,825016,away,Kansas City Royals,Jeffrey Springs,,,0,,0,0,0,0,0
+686780,823391,away,St. Louis Cardinals,Paul Skenes,,,8,800,0,0,0,0,0
+686790,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+686790,823472,away,San Francisco Giants,Cristopher Sánchez,,,0,,0,0,0,0,0
+686797,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+686823,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+686823,823472,away,San Francisco Giants,Cristopher Sánchez,,,0,,0,0,0,0,0
+686894,823634,away,Washington Nationals,Freddy Peralta,,,0,,0,0,0,0,0
+686948,824929,home,Atlanta Braves,Framber Valdez,,,2,200,0,0,0,0,0
+686973,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+686993,825016,home,Athletics,Noah Cameron,,,0,,0,0,0,0,0
+687064,824848,home,Baltimore Orioles,Peter Lambert,,,0,,0,0,0,0,0
+687064,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+687075,823795,home,Milwaukee Brewers,Michael Soroka,,,0,,0,0,0,0,0
+687209,824524,home,Cincinnati Reds,Michael Lorenzen,,,0,,0,0,0,0,0
+687231,825016,home,Athletics,Noah Cameron,,,5,500,0,0,0,0,0
+687363,823391,away,St. Louis Cardinals,Paul Skenes,,,9,900,0,0,0,0,0
+687401,823795,home,Milwaukee Brewers,Michael Soroka,,,0,,0,0,0,0,0
+687462,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,6,600,0,0,0,0,0
+687515,825016,home,Athletics,Noah Cameron,,,4,400,0,0,0,0,0
+687551,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+687551,823472,away,San Francisco Giants,Cristopher Sánchez,,,0,,0,0,0,0,0
+687570,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+687597,824524,away,Colorado Rockies,Andrew Abbott,,,1,100,0,0,0,0,0
+687606,823634,away,Washington Nationals,Freddy Peralta,,,0,,0,0,0,0,0
+687637,824848,home,Baltimore Orioles,Peter Lambert,,,5,500,0,0,0,0,0
+687637,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+687859,824524,away,Colorado Rockies,Andrew Abbott,,,9,900,0,0,0,0,0
+687911,824848,away,Houston Astros,Chris Bassitt,,,0,,0,0,0,0,0
+687911,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+687957,824848,away,Houston Astros,Chris Bassitt,,,8,800,0,0,0,0,0
+687957,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+688642,824524,away,Colorado Rockies,Andrew Abbott,,,0,,0,0,0,0,0
+689147,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+689147,823472,home,Philadelphia Phillies,Logan Webb,,,0,,0,0,0,0,0
+689254,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+689296,824848,home,Baltimore Orioles,Peter Lambert,,,0,,0,0,0,0,0
+689296,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+690291,824929,away,Detroit Tigers,Bryce Elder,,,0,,0,0,0,0,0
+690928,823391,away,St. Louis Cardinals,Paul Skenes,,,0,,0,0,0,0,0
+690986,823795,home,Milwaukee Brewers,Michael Soroka,,,0,,0,0,0,0,0
+690993,824929,away,Detroit Tigers,Bryce Elder,,,3,300,0,0,0,0,0
+690997,823634,home,New York Mets,Miles Mikolas,,,0,,0,0,0,0,0
+691016,825016,home,Athletics,Noah Cameron,,,0,,0,0,0,0,0
+691023,823391,away,St. Louis Cardinals,Paul Skenes,,,4,400,0,0,0,0,0
+691026,823391,away,St. Louis Cardinals,Paul Skenes,,,6,600,0,0,0,0,0
+691720,824524,away,Colorado Rockies,Andrew Abbott,,,7,700,0,0,0,0,0
+691723,824848,home,Baltimore Orioles,Peter Lambert,,,8,800,0,0,0,0,0
+691723,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+691725,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+691725,823472,home,Philadelphia Phillies,Logan Webb,,,0,,0,0,0,0,0
+691769,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,0,,0,0,0,0,0
+691781,823634,away,Washington Nationals,Freddy Peralta,,,0,,0,0,0,0,0
+693304,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,5,500,0,0,0,0,0
+693307,824929,away,Detroit Tigers,Bryce Elder,,,0,,0,0,0,0,0
+693686,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+693821,824929,home,Atlanta Braves,Framber Valdez,,,0,,0,0,0,0,0
+694025,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+694025,823472,home,Philadelphia Phillies,Logan Webb,,,0,,0,0,0,0,0
+694212,824848,home,Baltimore Orioles,Peter Lambert,,,0,,0,0,0,0,0
+694212,824850,home,Baltimore Orioles,Lance McCullers Jr.,,,0,,0,0,0,0,0
+694297,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,0,,0,0,0,0,0
+694335,823391,away,St. Louis Cardinals,Paul Skenes,,,0,,0,0,0,0,0
+694374,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,0,,0,0,0,0,0
+694376,824848,away,Houston Astros,Chris Bassitt,,,0,,0,0,0,0,0
+694376,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+694377,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,0,,0,0,0,0,0
+694477,823795,home,Milwaukee Brewers,Michael Soroka,,,0,,0,0,0,0,0
+694728,824848,away,Houston Astros,Chris Bassitt,,,7,700,0,0,0,0,0
+694728,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+694738,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+694738,823472,away,San Francisco Giants,Cristopher Sánchez,,,0,,0,0,0,0,0
+694819,823795,home,Milwaukee Brewers,Michael Soroka,,,0,,0,0,0,0,0
+694973,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,0,,0,0,0,0,0
+695076,824524,home,Cincinnati Reds,Michael Lorenzen,,,0,,0,0,0,0,0
+695257,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,0,,0,0,0,0,0
+695336,823391,away,St. Louis Cardinals,Paul Skenes,,,0,,0,0,0,0,0
+695391,825016,home,Athletics,Noah Cameron,,,0,,0,0,0,0,0
+695418,823634,away,Washington Nationals,Freddy Peralta,,,0,,0,0,0,0,0
+695505,824524,home,Cincinnati Reds,Michael Lorenzen,,,0,,0,0,0,0,0
+695506,825016,away,Kansas City Royals,Jeffrey Springs,,,0,,0,0,0,0,0
+695578,823634,away,Washington Nationals,Freddy Peralta,,,1,100,0,0,0,0,0
+695600,825016,away,Kansas City Royals,Jeffrey Springs,,,7,700,0,0,0,0,0
+695734,823634,away,Washington Nationals,Freddy Peralta,,,3,300,0,0,0,0,0
+696100,824524,away,Colorado Rockies,Andrew Abbott,,,3,300,0,0,0,0,0
+696131,825016,away,Kansas City Royals,Jeffrey Springs,,,0,,0,0,0,0,0
+696149,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,0,,0,0,0,0,0
+696285,823634,away,Washington Nationals,Freddy Peralta,,,9,900,0,0,0,0,0
+699912,823795,away,Arizona Diamondbacks,Brandon Woodruff,,,0,,0,0,0,0,0
+700241,823391,away,St. Louis Cardinals,Paul Skenes,,,0,,0,0,0,0,0
+700669,823391,away,St. Louis Cardinals,Paul Skenes,,,0,,0,0,0,0,0
+701358,824848,away,Houston Astros,Chris Bassitt,,,0,,0,0,0,0,0
+701358,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+701398,824524,home,Cincinnati Reds,Michael Lorenzen,,,4,400,0,0,0,0,0
+701552,823634,away,Washington Nationals,Freddy Peralta,,,0,,0,0,0,0,0
+701675,823391,away,St. Louis Cardinals,Paul Skenes,,,7,700,0,0,0,0,0
+701678,824929,away,Detroit Tigers,Bryce Elder,,,8,800,0,0,0,0,0
+701762,825016,home,Athletics,Noah Cameron,,,3,300,0,0,0,0,0
+701807,823634,home,New York Mets,Miles Mikolas,,,7,700,0,0,0,0,0
+702056,823714,away,Toronto Blue Jays,Bailey Ober,,,0,,0,0,0,0,0
+702070,825016,away,Kansas City Royals,Jeffrey Springs,,,0,,0,0,0,0,0
+702153,823795,home,Milwaukee Brewers,Michael Soroka,,,0,,0,0,0,0,0
+702193,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+702222,823471,home,Philadelphia Phillies,,,,0,,0,0,0,0,0
+702222,823472,home,Philadelphia Phillies,Logan Webb,,,8,800,0,0,0,0,0
+702275,824929,home,Atlanta Braves,Framber Valdez,,,0,,0,0,0,0,0
+800311,824929,home,Atlanta Braves,Framber Valdez,,,0,,0,0,0,0,0
+801403,824524,away,Colorado Rockies,Andrew Abbott,,,0,,0,0,0,0,0
+802139,823391,away,St. Louis Cardinals,Paul Skenes,,,1,100,0,0,0,0,0
+804606,823391,home,Pittsburgh Pirates,Hunter Dobbins,,,7,700,0,0,0,0,0
+805123,824848,away,Houston Astros,Chris Bassitt,,,0,,0,0,0,0,0
+805123,824850,away,Houston Astros,Brandon Young,,,0,,0,0,0,0,0
+805779,825016,home,Athletics,Noah Cameron,,,1,100,0,0,0,0,0
+805808,824929,away,Detroit Tigers,Bryce Elder,,,1,100,0,0,0,0,0
+807712,823714,home,Minnesota Twins,Kevin Gausman,,,0,,0,0,0,0,0
+808982,823471,away,San Francisco Giants,,,,0,,0,0,0,0,0
+808982,823472,away,San Francisco Giants,Cristopher Sánchez,,,7,700,0,0,0,0,0

@@ -81,6 +81,9 @@ def load_data():
     historical = pd.read_csv(os.path.join(INPUT_DIR, f"{today_str}_historical_data.csv"))
     todays_games = pd.read_csv(os.path.join(INPUT_DIR, f"{today_str}_todays_games.csv"))
     players_games = pd.read_csv(os.path.join(INPUT_DIR, f"{today_str}_players_games.csv"))
+    historical = historical.sort_values([c for c in ["id", "season", "game_date", "game_id"] if c in historical.columns]).reset_index(drop=True)
+    todays_games = todays_games.sort_values([c for c in ["game_id"] if c in todays_games.columns]).reset_index(drop=True)
+    players_games = players_games.sort_values([c for c in ["player_id", "game_id"] if c in players_games.columns]).reset_index(drop=True)
     
     return historical, todays_games, players_games
 
@@ -120,6 +123,44 @@ def _lineup_quality(lineup_position: int) -> float:
     return max(0.0, (10 - lineup_position) / 9.0)
 
 
+def _handedness_features(source, pitcher_throws_left: int) -> dict:
+    vs_lhp_avg = _safe_float(source.get("batter_vs_lhp_avg", 0.270), 0.270)
+    vs_lhp_ops = _safe_float(source.get("batter_vs_lhp_ops", 0.720), 0.720)
+    vs_lhp_pa = _safe_int(source.get("batter_vs_lhp_pa", 0), 0)
+    vs_lhp_k_pct = _safe_float(source.get("batter_vs_lhp_k_pct", 0.22), 0.22)
+    vs_lhp_bb_pct = _safe_float(source.get("batter_vs_lhp_bb_pct", 0.08), 0.08)
+    vs_rhp_avg = _safe_float(source.get("batter_vs_rhp_avg", 0.270), 0.270)
+    vs_rhp_ops = _safe_float(source.get("batter_vs_rhp_ops", 0.720), 0.720)
+    vs_rhp_pa = _safe_int(source.get("batter_vs_rhp_pa", 0), 0)
+    vs_rhp_k_pct = _safe_float(source.get("batter_vs_rhp_k_pct", 0.22), 0.22)
+    vs_rhp_bb_pct = _safe_float(source.get("batter_vs_rhp_bb_pct", 0.08), 0.08)
+
+    if pitcher_throws_left:
+        matchup_avg, matchup_ops, matchup_pa = vs_lhp_avg, vs_lhp_ops, vs_lhp_pa
+        matchup_k_pct, matchup_bb_pct = vs_lhp_k_pct, vs_lhp_bb_pct
+    else:
+        matchup_avg, matchup_ops, matchup_pa = vs_rhp_avg, vs_rhp_ops, vs_rhp_pa
+        matchup_k_pct, matchup_bb_pct = vs_rhp_k_pct, vs_rhp_bb_pct
+
+    return {
+        "batter_vs_lhp_avg": vs_lhp_avg,
+        "batter_vs_lhp_ops": vs_lhp_ops,
+        "batter_vs_lhp_pa": vs_lhp_pa,
+        "batter_vs_lhp_k_pct": vs_lhp_k_pct,
+        "batter_vs_lhp_bb_pct": vs_lhp_bb_pct,
+        "batter_vs_rhp_avg": vs_rhp_avg,
+        "batter_vs_rhp_ops": vs_rhp_ops,
+        "batter_vs_rhp_pa": vs_rhp_pa,
+        "batter_vs_rhp_k_pct": vs_rhp_k_pct,
+        "batter_vs_rhp_bb_pct": vs_rhp_bb_pct,
+        "matchup_split_avg": matchup_avg,
+        "matchup_split_ops": matchup_ops,
+        "matchup_split_pa": matchup_pa,
+        "matchup_split_k_pct": matchup_k_pct,
+        "matchup_split_bb_pct": matchup_bb_pct,
+    }
+
+
 def _add_recent_form(row: dict, player_data: pd.DataFrame, latest: pd.Series) -> None:
     """Adds rolling features. With season-level input this is a fallback; with game logs it becomes true recent form."""
     current_avg = _safe_float(latest.get("avg", 0.270), 0.270)
@@ -146,6 +187,39 @@ def _add_recent_form(row: dict, player_data: pd.DataFrame, latest: pd.Series) ->
     row["current_streak"] = streak
 
 
+def _season_snapshot(player_data: pd.DataFrame, latest: pd.Series) -> dict:
+    if "game_date" in player_data.columns:
+        latest_season = _safe_int(latest.get("season", 0), 0)
+        season_rows = player_data[player_data["season"].map(lambda x: _safe_int(x, 0)) == latest_season]
+        total_ab = season_rows["atBats"].map(lambda x: _safe_float(x, 0)).sum() if "atBats" in season_rows else 0
+        total_hits = season_rows["hits"].map(lambda x: _safe_float(x, 0)).sum() if "hits" in season_rows else 0
+        season_avg = total_hits / total_ab if total_ab > 0 else 0.270
+        return {
+            "current_avg": season_avg,
+            "current_hits": int(total_hits),
+            "current_at_bats": int(total_ab),
+            "season_avg": season_avg,
+            "season_pa": int(total_ab),
+            "season_hits": int(total_hits),
+            "season_obp": _safe_float(latest.get("obp", 0.320), 0.320),
+            "season_ops": _safe_float(latest.get("ops", 0.720), 0.720),
+            "last_avg": _safe_float(latest.get("avg", 0.270), 0.270),
+        }
+
+    season_pa = _safe_int(latest.get("atBats", 0), 0)
+    return {
+        "current_avg": _safe_float(latest.get("avg", 0.270), 0.270),
+        "current_hits": _safe_int(latest.get("hits", 0), 0),
+        "current_at_bats": season_pa,
+        "season_avg": _safe_float(latest.get("avg", 0.270), 0.270),
+        "season_obp": _safe_float(latest.get("obp", 0.320), 0.320),
+        "season_ops": _safe_float(latest.get("ops", 0.720), 0.720),
+        "season_pa": season_pa,
+        "season_hits": _safe_int(latest.get("hits", 0), 0),
+        "last_avg": _safe_float(latest.get("avg", 0.270), 0.270),
+    }
+
+
 def build_candidate_rows(historical: pd.DataFrame, todays_games: pd.DataFrame,
                         players_games: pd.DataFrame) -> pd.DataFrame:
     """
@@ -155,17 +229,19 @@ def build_candidate_rows(historical: pd.DataFrame, todays_games: pd.DataFrame,
     candidates = []
     batters = historical[historical["position"] != "P"].copy()
 
-    today_player_ids = players_games["player_id"].unique()
+    today_player_ids = sorted(players_games["player_id"].dropna().unique())
 
     for player_id in today_player_ids:
-        player_data = batters[batters["id"] == player_id].sort_values("season", ascending=False)
+        sort_cols = [c for c in ["game_date", "game_id", "season"] if c in batters.columns] or ["season"]
+        player_data = batters[batters["id"] == player_id].sort_values(sort_cols, ascending=False)
 
         if player_data.empty:
             continue
 
         latest = player_data.iloc[0]
         player_pos = latest.get("position", "DH")
-        season_pa = _safe_int(latest.get("atBats", 0), 0)
+        season_stats = _season_snapshot(player_data, latest)
+        season_pa = season_stats["season_pa"]
 
         if season_pa < MIN_SEASON_PA:
             continue
@@ -174,15 +250,7 @@ def build_candidate_rows(historical: pd.DataFrame, todays_games: pd.DataFrame,
             "player_id": player_id,
             "player_name": latest["name"],
             "position": player_pos,
-            "current_avg": _safe_float(latest.get("avg", 0.270), 0.270),
-            "current_hits": _safe_int(latest.get("hits", 0), 0),
-            "current_at_bats": season_pa,
-            "season_avg": _safe_float(latest.get("avg", 0.270), 0.270),
-            "season_obp": _safe_float(latest.get("obp", 0.320), 0.320),
-            "season_ops": _safe_float(latest.get("ops", 0.720), 0.720),
-            "season_pa": season_pa,
-            "season_hits": _safe_int(latest.get("hits", 0), 0),
-            "last_avg": _safe_float(latest.get("avg", 0.270), 0.270),
+            **season_stats,
             "avg_trending": 1 if len(player_data) > 1 and _safe_float(latest.get("avg", 0), 0) >= _safe_float(player_data.iloc[1].get("avg", 0), 0) else 0,
         }
 
@@ -202,6 +270,7 @@ def build_candidate_rows(historical: pd.DataFrame, todays_games: pd.DataFrame,
         row["batter_bat_side"] = game_row.iloc[0].get("batter_bat_side", "") if not game_row.empty else ""
         row["opponent_pitcher_hand"] = game_row.iloc[0].get("opponent_pitcher_hand", "") if not game_row.empty else ""
         row["opponent_pitcher_name"] = game_row.iloc[0].get("opponent_pitcher_name", "") if not game_row.empty else ""
+        row.update(_handedness_features(latest, row["pitcher_throws_left"]))
 
         _add_recent_form(row, player_data, latest)
 
@@ -323,7 +392,7 @@ def _select_diversified_picks(qualified: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(selected_rows)
 
 
-def predict_picks(model, feature_cols: list, candidates: pd.DataFrame) -> pd.DataFrame:
+def predict_picks(model, feature_cols: list, candidates: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
     Predict hit probabilities, apply BTS risk controls, and choose only qualified picks.
     """
@@ -358,10 +427,29 @@ def predict_picks(model, feature_cols: list, candidates: pd.DataFrame) -> pd.Dat
             best[["player_name", "p_hit", "adjusted_p_hit", "risk_flags"]].to_dict("records")
         )
         if ALLOW_SKIP_DAYS:
-            return candidates.iloc[0:0].copy()
+            return candidates.iloc[0:0].copy(), candidates
         qualified = candidates.copy()
 
-    return _select_diversified_picks(qualified)
+    return _select_diversified_picks(qualified), candidates
+
+
+def save_candidates(candidates: pd.DataFrame, timestamp: str) -> None:
+    os.makedirs(PICKS_DIR, exist_ok=True)
+    out_path = os.path.join(PICKS_DIR, f"all_candidates_{timestamp}.csv")
+    output_cols = [
+        "player_id", "player_name", "position", "lineup_position",
+        "batter_bat_side", "opponent_pitcher_name", "opponent_pitcher_hand", "platoon_advantage",
+        "matchup_split_avg", "matchup_split_ops", "matchup_split_pa",
+        "away_team", "home_team", "game_datetime",
+        "p_hit", "risk_penalty", "adjusted_p_hit", "confidence_tier", "risk_flags"
+    ]
+    output_cols = [c for c in output_cols if c in candidates.columns]
+    candidates.sort_values(
+        ["adjusted_p_hit", "p_hit", "player_name", "player_id"],
+        ascending=[False, False, True, True],
+    )[output_cols].to_csv(out_path, index=False)
+    logger.info(f"Saved all candidates to {out_path}")
+
 
 def main():
     logger.info("=" * 60)
@@ -388,7 +476,9 @@ def main():
     
     # Predict
     logger.info(f"Predicting hit probabilities...")
-    picks = predict_picks(model, feature_cols, candidates)
+    picks, scored_candidates = predict_picks(model, feature_cols, candidates)
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    save_candidates(scored_candidates, timestamp)
     
     # Display picks
     logger.info(f"\n{'=' * 60}")
@@ -409,12 +499,12 @@ def main():
     
     # Save picks
     os.makedirs(PICKS_DIR, exist_ok=True)
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     out_path = os.path.join(PICKS_DIR, f"picks_{timestamp}.csv")
     
     output_cols = [
         "player_id", "player_name", "position", "lineup_position",
         "batter_bat_side", "opponent_pitcher_name", "opponent_pitcher_hand", "platoon_advantage",
+        "matchup_split_avg", "matchup_split_ops", "matchup_split_pa",
         "away_team", "home_team", "game_datetime",
         "p_hit", "risk_penalty", "adjusted_p_hit", "confidence_tier", "risk_flags"
     ]

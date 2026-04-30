@@ -1,0 +1,11 @@
+player_id,player_name,position,lineup_position,batter_bat_side,opponent_pitcher_name,opponent_pitcher_hand,platoon_advantage,matchup_split_avg,matchup_split_ops,matchup_split_pa,away_team,home_team,game_datetime,p_hit
+805808,Kevin McGonigle,SS,1,,Bryce Elder,,0,0.27,0.72,0,Detroit Tigers,Atlanta Braves,2026-04-30T16:15:00Z,0.688624894618988
+665742,Juan Soto,LF,2,,Miles Mikolas,,0,0.27,0.72,0,Washington Nationals,New York Mets,2026-04-30T17:10:00Z,0.6789917826652527
+645277,Ozzie Albies,2B,3,,Framber Valdez,,0,0.27,0.72,0,Detroit Tigers,Atlanta Braves,2026-04-30T16:15:00Z,0.6710177302360535
+621566,Matt Olson,1B,4,,Framber Valdez,,0,0.27,0.72,0,Detroit Tigers,Atlanta Braves,2026-04-30T16:15:00Z,0.6671799063682556
+670541,Yordan Alvarez,LF,2,,Chris Bassitt,,0,0.27,0.72,0,Houston Astros,Baltimore Orioles,2026-04-30T16:35:00Z,0.6634370446205139
+521692,Salvador Perez,C,4,,Jeffrey Springs,,0,0.27,0.72,0,Kansas City Royals,Athletics,2026-04-30T19:05:00Z,0.6608211874961853
+545121,Ildemaro Vargas,1B,5,,Brandon Woodruff,,0,0.27,0.72,0,Arizona Diamondbacks,Milwaukee Brewers,2026-04-30T17:40:00Z,0.6587900280952453
+572233,Christian Walker,1B,4,,Chris Bassitt,,0,0.27,0.72,0,Houston Astros,Baltimore Orioles,2026-04-30T16:35:00Z,0.6571591019630432
+695734,Daylen Lile,LF,3,,Freddy Peralta,,0,0.27,0.72,0,Washington Nationals,New York Mets,2026-04-30T17:10:00Z,0.6571591019630432
+668939,Adley Rutschman,C,3,,Peter Lambert,,0,0.27,0.72,0,Houston Astros,Baltimore Orioles,2026-04-30T16:35:00Z,0.6545310854911804

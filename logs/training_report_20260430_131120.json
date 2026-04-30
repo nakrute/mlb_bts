@@ -1,0 +1,137 @@
+{
+  "run_timestamp": "2026-04-30T13:11:20.732906",
+  "data_date": "2026-04-30",
+  "historical_rows": 46181,
+  "todays_games": 11,
+  "player_game_rows": 580,
+  "unique_players": 472,
+  "training_rows": 45625,
+  "hit_distribution": {
+    "0": 19079,
+    "1": 26546
+  },
+  "feature_count": 52,
+  "feature_cols": [
+    "current_avg",
+    "current_hits",
+    "current_at_bats",
+    "roll2_avg",
+    "roll3_avg",
+    "roll7_avg",
+    "roll7_hit_game_rate",
+    "roll7_ab_per_game",
+    "roll14_avg",
+    "roll14_hit_game_rate",
+    "roll14_ab_per_game",
+    "roll30_avg",
+    "roll30_hit_game_rate",
+    "roll30_ab_per_game",
+    "season_pa",
+    "season_hits",
+    "season_avg",
+    "season_obp",
+    "season_ops",
+    "last_avg",
+    "avg_trending",
+    "last5_hit_games",
+    "last10_hit_games",
+    "current_streak",
+    "lineup_position",
+    "is_confirmed_starter",
+    "is_top_lineup",
+    "lineup_quality",
+    "batter_bats_left",
+    "batter_bats_right",
+    "batter_switch_hitter",
+    "pitcher_throws_left",
+    "platoon_advantage",
+    "batter_vs_lhp_avg",
+    "batter_vs_lhp_ops",
+    "batter_vs_lhp_pa",
+    "batter_vs_lhp_k_pct",
+    "batter_vs_lhp_bb_pct",
+    "batter_vs_rhp_avg",
+    "batter_vs_rhp_ops",
+    "batter_vs_rhp_pa",
+    "batter_vs_rhp_k_pct",
+    "batter_vs_rhp_bb_pct",
+    "matchup_split_avg",
+    "matchup_split_ops",
+    "matchup_split_pa",
+    "matchup_split_k_pct",
+    "matchup_split_bb_pct",
+    "park_factor",
+    "hitter_park_boost",
+    "pitcher_era",
+    "pitcher_whip"
+  ],
+  "metrics": {
+    "cv_roc_auc_mean": 0.5774488136484239,
+    "cv_roc_auc_std": 0.004658101374554063,
+    "training_roc_auc": 0.6676712309926038,
+    "brier_score": 0.22778689290305335,
+    "n_splits": 5
+  },
+  "top_feature_importances": [
+    {
+      "feature": "roll30_ab_per_game",
+      "importance": 0.12287075966596603
+    },
+    {
+      "feature": "roll14_ab_per_game",
+      "importance": 0.07092310637235641
+    },
+    {
+      "feature": "roll7_ab_per_game",
+      "importance": 0.040616782009601594
+    },
+    {
+      "feature": "season_avg",
+      "importance": 0.03995733708143234
+    },
+    {
+      "feature": "current_avg",
+      "importance": 0.03745574206113815
+    },
+    {
+      "feature": "roll14_hit_game_rate",
+      "importance": 0.0373458981513977
+    },
+    {
+      "feature": "roll30_hit_game_rate",
+      "importance": 0.03716550320386887
+    },
+    {
+      "feature": "season_hits",
+      "importance": 0.03549315705895424
+    },
+    {
+      "feature": "last_avg",
+      "importance": 0.03513871729373932
+    },
+    {
+      "feature": "current_hits",
+      "importance": 0.035068582743406296
+    },
+    {
+      "feature": "season_pa",
+      "importance": 0.033977124094963077
+    },
+    {
+      "feature": "last5_hit_games",
+      "importance": 0.03285034447908401
+    },
+    {
+      "feature": "pitcher_era",
+      "importance": 0.03277030065655708
+    },
+    {
+      "feature": "roll2_avg",
+      "importance": 0.03248967155814171
+    },
+    {
+      "feature": "current_at_bats",
+      "importance": 0.0321721937507391
+    }
+  ]
+}

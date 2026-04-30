@@ -41,32 +41,55 @@ jobs:
 
       - name: Locate latest picks file
         if: always()
-        id: latest-picks
+        id: latest-results
         shell: bash
         run: |
-          latest="$(ls -t picks/picks_*.csv 2>/dev/null | head -n 1 || true)"
-          echo "path=$latest" >> "$GITHUB_OUTPUT"
+          latest_picks="$(ls -t picks/picks_*.csv 2>/dev/null | head -n 1 || true)"
+          latest_candidates="$(ls -t picks/all_candidates_*.csv 2>/dev/null | head -n 1 || true)"
+          echo "picks_path=$latest_picks" >> "$GITHUB_OUTPUT"
+          echo "candidates_path=$latest_candidates" >> "$GITHUB_OUTPUT"
 
           {
             echo "## Daily BTS Picks"
             echo
-            if [ -n "$latest" ]; then
-              echo "Latest file: \`$latest\`"
+            if [ -n "$latest_picks" ]; then
+              echo "Latest picks file: \`$latest_picks\`"
               echo
               echo "\`\`\`csv"
-              cat "$latest"
+              cat "$latest_picks"
               echo "\`\`\`"
             else
               echo "No picks CSV was generated."
             fi
+
+            echo
+            echo "## Candidate Ranking"
+            echo
+            if [ -n "$latest_candidates" ]; then
+              echo "Latest candidates file: \`$latest_candidates\`"
+              echo
+              echo "\`\`\`csv"
+              head -n 16 "$latest_candidates"
+              echo "\`\`\`"
+            else
+              echo "No all-candidates CSV was generated."
+            fi
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload latest picks CSV
-        if: always() && steps.latest-picks.outputs.path != ''
+        if: always() && steps.latest-results.outputs.picks_path != ''
         uses: actions/upload-artifact@v4
         with:
           name: latest-bts-picks
-          path: ${{ steps.latest-picks.outputs.path }}
+          path: ${{ steps.latest-results.outputs.picks_path }}
+          if-no-files-found: error
+
+      - name: Upload latest candidates CSV
+        if: always() && steps.latest-results.outputs.candidates_path != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: latest-bts-candidates
+          path: ${{ steps.latest-results.outputs.candidates_path }}
           if-no-files-found: error
 
       - name: Upload run outputs

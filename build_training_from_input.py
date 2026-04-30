@@ -9,6 +9,7 @@ This script:
 4. Saves the model
 """
 import logging
+import json
 import os
 import pickle
 import random
@@ -21,7 +22,7 @@ from sklearn.metrics import brier_score_loss, classification_report, roc_auc_sco
 from sklearn.model_selection import StratifiedKFold, cross_val_score
 import xgboost as xgb
 
-from config import DATA_DIR, MODEL_DIR, ROLLING_WINDOWS, MIN_AB_FOR_PLATOON, PARK_FACTORS, MIN_SEASON_PA, MIN_LINEUP_POSITION, MAX_LINEUP_POSITION
+from config import DATA_DIR, MODEL_DIR, LOGS_DIR, ROLLING_WINDOWS, MIN_AB_FOR_PLATOON, PARK_FACTORS, MIN_SEASON_PA, MIN_LINEUP_POSITION, MAX_LINEUP_POSITION
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
@@ -51,8 +52,8 @@ def get_pitcher_stats(pitcher_name: str, pitching_df: pd.DataFrame) -> dict:
     
     latest = pitcher_data.sort_values("season").iloc[-1]
     return {
-        "pitcher_era": float(latest.get("era", 4.0)),
-        "pitcher_whip": float(latest.get("whip", 1.2))
+        "pitcher_era": _safe_float(latest.get("era", 4.0), 4.0),
+        "pitcher_whip": _safe_float(latest.get("whip", 1.2), 1.2)
     }
 
 
@@ -63,7 +64,7 @@ def load_input_data():
     pitching = pd.read_csv(os.path.join(INPUT_DIR, f"{today_str}_historical_pitching_data.csv"))
     players_games = pd.read_csv(os.path.join(INPUT_DIR, f"{today_str}_players_games.csv"))
     todays_games = pd.read_csv(os.path.join(INPUT_DIR, f"{today_str}_todays_games.csv"))
-    historical = historical.sort_values([c for c in ["id", "season", "game_id"] if c in historical.columns]).reset_index(drop=True)
+    historical = historical.sort_values([c for c in ["id", "season", "game_date", "game_id"] if c in historical.columns]).reset_index(drop=True)
     pitching = pitching.sort_values([c for c in ["id", "season"] if c in pitching.columns]).reset_index(drop=True)
     players_games = players_games.sort_values([c for c in ["player_id", "game_id"] if c in players_games.columns]).reset_index(drop=True)
     todays_games = todays_games.sort_values([c for c in ["game_id"] if c in todays_games.columns]).reset_index(drop=True)
@@ -120,17 +121,66 @@ def _lineup_quality(lineup_position: int) -> float:
     return max(0.0, (10 - lineup_position) / 9.0)
 
 
+def _handedness_features(source, pitcher_throws_left: int) -> dict:
+    vs_lhp_avg = _safe_float(source.get("batter_vs_lhp_avg", 0.270), 0.270)
+    vs_lhp_ops = _safe_float(source.get("batter_vs_lhp_ops", 0.720), 0.720)
+    vs_lhp_pa = _safe_int(source.get("batter_vs_lhp_pa", 0), 0)
+    vs_lhp_k_pct = _safe_float(source.get("batter_vs_lhp_k_pct", 0.22), 0.22)
+    vs_lhp_bb_pct = _safe_float(source.get("batter_vs_lhp_bb_pct", 0.08), 0.08)
+    vs_rhp_avg = _safe_float(source.get("batter_vs_rhp_avg", 0.270), 0.270)
+    vs_rhp_ops = _safe_float(source.get("batter_vs_rhp_ops", 0.720), 0.720)
+    vs_rhp_pa = _safe_int(source.get("batter_vs_rhp_pa", 0), 0)
+    vs_rhp_k_pct = _safe_float(source.get("batter_vs_rhp_k_pct", 0.22), 0.22)
+    vs_rhp_bb_pct = _safe_float(source.get("batter_vs_rhp_bb_pct", 0.08), 0.08)
+
+    if pitcher_throws_left:
+        matchup_avg, matchup_ops, matchup_pa = vs_lhp_avg, vs_lhp_ops, vs_lhp_pa
+        matchup_k_pct, matchup_bb_pct = vs_lhp_k_pct, vs_lhp_bb_pct
+    else:
+        matchup_avg, matchup_ops, matchup_pa = vs_rhp_avg, vs_rhp_ops, vs_rhp_pa
+        matchup_k_pct, matchup_bb_pct = vs_rhp_k_pct, vs_rhp_bb_pct
+
+    return {
+        "batter_vs_lhp_avg": vs_lhp_avg,
+        "batter_vs_lhp_ops": vs_lhp_ops,
+        "batter_vs_lhp_pa": vs_lhp_pa,
+        "batter_vs_lhp_k_pct": vs_lhp_k_pct,
+        "batter_vs_lhp_bb_pct": vs_lhp_bb_pct,
+        "batter_vs_rhp_avg": vs_rhp_avg,
+        "batter_vs_rhp_ops": vs_rhp_ops,
+        "batter_vs_rhp_pa": vs_rhp_pa,
+        "batter_vs_rhp_k_pct": vs_rhp_k_pct,
+        "batter_vs_rhp_bb_pct": vs_rhp_bb_pct,
+        "matchup_split_avg": matchup_avg,
+        "matchup_split_ops": matchup_ops,
+        "matchup_split_pa": matchup_pa,
+        "matchup_split_k_pct": matchup_k_pct,
+        "matchup_split_bb_pct": matchup_bb_pct,
+    }
+
+
 def _build_row_from_prior(player_id, player_name, player_pos, current, prior,
-                          pitcher_era=4.0, pitcher_whip=1.2, park_factor=1.0):
+                          pitcher_era=4.0, pitcher_whip=1.2, park_factor=1.0,
+                          use_prior_snapshot=False):
     """Build one row using only data available before the target row."""
-    current_avg = _safe_float(current.get("avg", prior.iloc[-1].get("avg", 0.270) if len(prior) else 0.270), 0.270)
-    current_hits = _safe_int(current.get("hits", 0))
-    current_ab = _safe_int(current.get("atBats", 0))
+    prior_ab = prior["atBats"].map(lambda x: _safe_float(x, 0)).sum() if "atBats" in prior else 0
+    prior_hits = prior["hits"].map(lambda x: _safe_float(x, 0)).sum() if "hits" in prior else 0
+    prior_avg = prior_hits / prior_ab if prior_ab > 0 else 0.270
+
+    if use_prior_snapshot:
+        current_avg = prior_avg
+        current_hits = int(prior_hits)
+        current_ab = int(prior_ab)
+    else:
+        current_avg = _safe_float(current.get("avg", prior.iloc[-1].get("avg", 0.270) if len(prior) else 0.270), 0.270)
+        current_hits = _safe_int(current.get("hits", 0))
+        current_ab = _safe_int(current.get("atBats", 0))
 
     lineup_position = _safe_int(current.get("lineup_position", 0), 0)
     if lineup_position == 0:
         lineup_position = 5
 
+    pitcher_throws_left = _safe_int(current.get("pitcher_throws_left", 0), 0)
     row = {
         "player_id": player_id,
         "player_name": player_name,
@@ -145,9 +195,10 @@ def _build_row_from_prior(player_id, player_name, player_pos, current, prior,
         "batter_bats_left": _safe_int(current.get("batter_bats_left", 0), 0),
         "batter_bats_right": _safe_int(current.get("batter_bats_right", 0), 0),
         "batter_switch_hitter": _safe_int(current.get("batter_switch_hitter", 0), 0),
-        "pitcher_throws_left": _safe_int(current.get("pitcher_throws_left", 0), 0),
+        "pitcher_throws_left": pitcher_throws_left,
         "platoon_advantage": _safe_int(current.get("platoon_advantage", 0), 0),
     }
+    row.update(_handedness_features(current, pitcher_throws_left))
 
     for window in [2, 3, 7, 14, 30]:
         window_prior = prior.tail(window)
@@ -157,12 +208,9 @@ def _build_row_from_prior(player_id, player_name, player_pos, current, prior,
         row[f"roll{window}_hit_game_rate"] = _hit_game_rate(window_prior) if len(window_prior) else current_avg
         row[f"roll{window}_ab_per_game"] = total_ab / len(window_prior) if len(window_prior) else current_ab
 
-    prior_ab = prior["atBats"].map(lambda x: _safe_float(x, 0)).sum() if "atBats" in prior else 0
-    prior_hits = prior["hits"].map(lambda x: _safe_float(x, 0)).sum() if "hits" in prior else 0
-
     row["season_pa"] = int(prior_ab)
     row["season_hits"] = int(prior_hits)
-    row["season_avg"] = prior_hits / prior_ab if prior_ab > 0 else current_avg
+    row["season_avg"] = prior_avg if prior_ab > 0 else current_avg
     row["season_obp"] = _safe_float(prior.iloc[-1].get("obp", 0.320), 0.320) if len(prior) else 0.320
     row["season_ops"] = _safe_float(prior.iloc[-1].get("ops", 0.720), 0.720) if len(prior) else 0.720
     row["last_avg"] = _safe_float(prior.iloc[-1].get("avg", current_avg), current_avg) if len(prior) else current_avg
@@ -196,7 +244,7 @@ def build_training_data(historical: pd.DataFrame, pitching: pd.DataFrame, player
     logger.info(f"Filtered to {len(batters)} non-pitcher rows (removed {len(historical) - len(batters)} pitchers)")
 
     sort_cols = [c for c in ["game_date", "date", "game_id", "season"] if c in batters.columns] or ["season"]
-    has_game_level_rows = any(c in batters.columns for c in ["game_date", "date", "game_id"])
+    has_game_level_rows = "game_date" in batters.columns or "date" in batters.columns
 
     player_to_games = players_games.groupby("player_id", sort=True)["game_id"].apply(list).to_dict() if not players_games.empty else {}
 
@@ -222,7 +270,17 @@ def build_training_data(historical: pd.DataFrame, pitching: pd.DataFrame, player
         for i in range(2, len(player_group)):
             prior = player_group.iloc[:i]
             current = player_group.iloc[i]
-            row = _build_row_from_prior(player_id, player_name, player_pos, current, prior, pitcher_era, pitcher_whip, avg_park_factor)
+            row = _build_row_from_prior(
+                player_id,
+                player_name,
+                player_pos,
+                current,
+                prior,
+                pitcher_era,
+                pitcher_whip,
+                avg_park_factor,
+                use_prior_snapshot=has_game_level_rows,
+            )
             row["got_hit"] = 1 if (_safe_float(current.get("hits", 0), 0) >= 1 if has_game_level_rows else row["current_avg"] >= 0.265) else 0
             all_rows.append(row)
 
@@ -249,6 +307,9 @@ def prepare_features(df: pd.DataFrame):
         "lineup_position", "is_confirmed_starter", "is_top_lineup", "lineup_quality",
         "batter_bats_left", "batter_bats_right", "batter_switch_hitter",
         "pitcher_throws_left", "platoon_advantage",
+        "batter_vs_lhp_avg", "batter_vs_lhp_ops", "batter_vs_lhp_pa", "batter_vs_lhp_k_pct", "batter_vs_lhp_bb_pct",
+        "batter_vs_rhp_avg", "batter_vs_rhp_ops", "batter_vs_rhp_pa", "batter_vs_rhp_k_pct", "batter_vs_rhp_bb_pct",
+        "matchup_split_avg", "matchup_split_ops", "matchup_split_pa", "matchup_split_k_pct", "matchup_split_bb_pct",
         "park_factor", "hitter_park_boost", "pitcher_era", "pitcher_whip",
     ]
 
@@ -304,8 +365,96 @@ def train_model(X: pd.DataFrame, y: pd.Series) -> tuple:
     
     preds = (probs >= 0.5).astype(int)
     logger.info("\n" + classification_report(y, preds, target_names=["No Hit", "Hit"]))
+
+    metrics = {
+        "cv_roc_auc_mean": float(cv_auc.mean()),
+        "cv_roc_auc_std": float(cv_auc.std()),
+        "training_roc_auc": float(auc),
+        "brier_score": float(brier),
+        "n_splits": int(n_splits),
+    }
     
-    return base_model, calibrated
+    return base_model, calibrated, metrics
+
+
+def _top_feature_importances(calibrated_model, feature_cols: list, top_n: int = 15) -> list[dict]:
+    importances = []
+    for calibrated_classifier in getattr(calibrated_model, "calibrated_classifiers_", []):
+        estimator = getattr(calibrated_classifier, "estimator", None)
+        values = getattr(estimator, "feature_importances_", None)
+        if values is not None:
+            importances.append(np.asarray(values, dtype=float))
+
+    if not importances:
+        return []
+
+    mean_importance = np.vstack(importances).mean(axis=0)
+    ranked = sorted(
+        zip(feature_cols, mean_importance),
+        key=lambda item: item[1],
+        reverse=True,
+    )
+    return [
+        {"feature": feature, "importance": float(importance)}
+        for feature, importance in ranked[:top_n]
+    ]
+
+
+def save_run_report(
+    historical: pd.DataFrame,
+    players_games: pd.DataFrame,
+    todays_games: pd.DataFrame,
+    training_df: pd.DataFrame,
+    y: pd.Series,
+    feature_cols: list,
+    metrics: dict,
+    calibrated_model,
+) -> None:
+    os.makedirs(LOGS_DIR, exist_ok=True)
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    data_date = get_today_date_str()
+    hit_distribution = {str(k): int(v) for k, v in y.value_counts().sort_index().to_dict().items()}
+    top_importances = _top_feature_importances(calibrated_model, feature_cols)
+
+    report = {
+        "run_timestamp": datetime.now().isoformat(),
+        "data_date": data_date,
+        "historical_rows": int(len(historical)),
+        "todays_games": int(len(todays_games)),
+        "player_game_rows": int(len(players_games)),
+        "unique_players": int(players_games["player_id"].nunique()) if "player_id" in players_games else 0,
+        "training_rows": int(len(training_df)),
+        "hit_distribution": hit_distribution,
+        "feature_count": int(len(feature_cols)),
+        "feature_cols": feature_cols,
+        "metrics": metrics,
+        "top_feature_importances": top_importances,
+    }
+
+    json_path = os.path.join(LOGS_DIR, f"training_report_{timestamp}.json")
+    csv_path = os.path.join(LOGS_DIR, f"training_report_{timestamp}.csv")
+
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(report, f, indent=2)
+
+    summary_row = {
+        "run_timestamp": report["run_timestamp"],
+        "data_date": data_date,
+        "historical_rows": report["historical_rows"],
+        "todays_games": report["todays_games"],
+        "player_game_rows": report["player_game_rows"],
+        "unique_players": report["unique_players"],
+        "training_rows": report["training_rows"],
+        "hit_distribution": json.dumps(hit_distribution),
+        "feature_count": report["feature_count"],
+        "cv_roc_auc_mean": metrics.get("cv_roc_auc_mean"),
+        "cv_roc_auc_std": metrics.get("cv_roc_auc_std"),
+        "training_roc_auc": metrics.get("training_roc_auc"),
+        "brier_score": metrics.get("brier_score"),
+        "top_feature_importances": json.dumps(top_importances),
+    }
+    pd.DataFrame([summary_row]).to_csv(csv_path, index=False)
+    logger.info(f"Training report saved to {json_path} and {csv_path}")
 
 
 def save_model(calibrated_model, feature_cols: list, base_model=None):
@@ -341,10 +490,11 @@ def main():
     X, y, feature_cols = prepare_features(df)
     
     # Train model
-    base_model, calibrated_model = train_model(X, y)
+    base_model, calibrated_model, metrics = train_model(X, y)
     
     # Save model
     save_model(calibrated_model, feature_cols, base_model)
+    save_run_report(historical, players_games, todays_games, df, y, feature_cols, metrics, calibrated_model)
     
     logger.info("Training complete.")
 

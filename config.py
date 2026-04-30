@@ -13,8 +13,8 @@ WEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY", "")  # Optional: https://open
 # Model Parameters
 # ──────────────────────────────────────────────
 MODEL_TYPE = "xgboost"          # "xgboost" or "lightgbm"
-MIN_HIT_PROBABILITY = 0.68      # Minimum P(hit) to consider a pick
-TOP_N_PICKS = 2                 # BTS allows 2 picks per day
+MIN_HIT_PROBABILITY = 0.60      # Minimum P(hit) to consider a pick
+TOP_N_PICKS = 10                 # BTS allows 2 picks per day
 CONFIDENCE_THRESHOLD = 0.72     # Flag picks above this as "high confidence"
 
 # ──────────────────────────────────────────────
@@ -29,6 +29,7 @@ MIN_AB_H2H = 10                 # Min AB vs pitcher for head-to-head stats
 # ──────────────────────────────────────────────
 TRAINING_START_YEAR = 2018
 TRAINING_END_YEAR = 2023
+GAME_LOG_SEASONS_BACK = 2       # Fetch current season plus this many previous seasons
 DATA_DIR = "data"
 MODEL_DIR = "models"
 PICKS_DIR = "picks"

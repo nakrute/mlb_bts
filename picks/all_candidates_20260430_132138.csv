@@ -1,0 +1,86 @@
+player_id,player_name,position,lineup_position,batter_bat_side,opponent_pitcher_name,opponent_pitcher_hand,platoon_advantage,matchup_split_avg,matchup_split_ops,matchup_split_pa,away_team,home_team,game_datetime,p_hit
+805808,Kevin McGonigle,SS,1,,Bryce Elder,,0,0.27,0.72,0,Detroit Tigers,Atlanta Braves,2026-04-30T16:15:00Z,0.688624894618988
+665742,Juan Soto,LF,2,,Miles Mikolas,,0,0.27,0.72,0,Washington Nationals,New York Mets,2026-04-30T17:10:00Z,0.6789917826652527
+645277,Ozzie Albies,2B,3,,Framber Valdez,,0,0.27,0.72,0,Detroit Tigers,Atlanta Braves,2026-04-30T16:15:00Z,0.6710177302360535
+621566,Matt Olson,1B,4,,Framber Valdez,,0,0.27,0.72,0,Detroit Tigers,Atlanta Braves,2026-04-30T16:15:00Z,0.6671799063682556
+670541,Yordan Alvarez,LF,2,,Chris Bassitt,,0,0.27,0.72,0,Houston Astros,Baltimore Orioles,2026-04-30T16:35:00Z,0.6634370446205139
+521692,Salvador Perez,C,4,,Jeffrey Springs,,0,0.27,0.72,0,Kansas City Royals,Athletics,2026-04-30T19:05:00Z,0.6608211874961853
+545121,Ildemaro Vargas,1B,5,,Brandon Woodruff,,0,0.27,0.72,0,Arizona Diamondbacks,Milwaukee Brewers,2026-04-30T17:40:00Z,0.6587900280952453
+572233,Christian Walker,1B,4,,Chris Bassitt,,0,0.27,0.72,0,Houston Astros,Baltimore Orioles,2026-04-30T16:35:00Z,0.6571591019630432
+695734,Daylen Lile,LF,3,,Freddy Peralta,,0,0.27,0.72,0,Washington Nationals,New York Mets,2026-04-30T17:10:00Z,0.6571591019630432
+668939,Adley Rutschman,C,3,,Peter Lambert,,0,0.27,0.72,0,Houston Astros,Baltimore Orioles,2026-04-30T16:35:00Z,0.6545310854911804
+686948,Drake Baldwin,C,2,,Framber Valdez,,0,0.27,0.72,0,Detroit Tigers,Atlanta Braves,2026-04-30T16:15:00Z,0.6545310854911804
+656811,Ryan O'Hearn,RF,4,,Hunter Dobbins,,0,0.27,0.72,0,St. Louis Cardinals,Pittsburgh Pirates,2026-04-30T16:35:00Z,0.6545310854911804
+805779,Jacob Wilson,SS,1,,Noah Cameron,,0,0.27,0.72,0,Kansas City Royals,Athletics,2026-04-30T19:05:00Z,0.6539546728134156
+693304,Nick Gonzales,3B,5,,Hunter Dobbins,,0,0.27,0.72,0,St. Louis Cardinals,Pittsburgh Pirates,2026-04-30T16:35:00Z,0.6539546728134156
+676475,Alec Burleson,1B,3,,Paul Skenes,,0,0.27,0.72,0,St. Louis Cardinals,Pittsburgh Pirates,2026-04-30T16:35:00Z,0.6485936880111695
+669127,Shea Langeliers,C,2,,Noah Cameron,,0,0.27,0.72,0,Kansas City Royals,Athletics,2026-04-30T19:05:00Z,0.6478038668632508
+696100,Hunter Goodman,C,3,,Andrew Abbott,,0,0.27,0.72,0,Colorado Rockies,Cincinnati Reds,2026-04-30T16:40:00Z,0.6471522450447083
+682985,Riley Greene,LF,4,,Bryce Elder,,0,0.27,0.72,0,Detroit Tigers,Atlanta Braves,2026-04-30T16:15:00Z,0.6434510827064515
+571448,Nolan Arenado,3B,7,,Brandon Woodruff,,0,0.27,0.72,0,Arizona Diamondbacks,Milwaukee Brewers,2026-04-30T17:40:00Z,0.6407784700393677
+683002,Gunnar Henderson,SS,1,,Peter Lambert,,0,0.27,0.72,0,Houston Astros,Baltimore Orioles,2026-04-30T16:35:00Z,0.6378259062767029
+701398,Sal Stewart,1B,4,,Michael Lorenzen,,0,0.27,0.72,0,Colorado Rockies,Cincinnati Reds,2026-04-30T16:40:00Z,0.6370631098747254
+606466,Ketel Marte,2B,2,,Brandon Woodruff,,0,0.27,0.72,0,Arizona Diamondbacks,Milwaukee Brewers,2026-04-30T17:40:00Z,0.6360805988311767
+802139,JJ Wetherholt,2B,1,,Paul Skenes,,0,0.27,0.72,0,St. Louis Cardinals,Pittsburgh Pirates,2026-04-30T16:35:00Z,0.635252058506012
+621493,Taylor Ward,LF,2,,Peter Lambert,,0,0.27,0.72,0,Houston Astros,Baltimore Orioles,2026-04-30T16:35:00Z,0.634764838218689
+668930,Brice Turang,2B,2,,Michael Soroka,,0,0.27,0.72,0,Arizona Diamondbacks,Milwaukee Brewers,2026-04-30T17:40:00Z,0.6342231512069703
+682829,Elly De La Cruz,SS,3,,Michael Lorenzen,,0,0.27,0.72,0,Colorado Rockies,Cincinnati Reds,2026-04-30T16:40:00Z,0.6338179707527161
+641343,Jake Bauers,1B,4,,Michael Soroka,,0,0.27,0.72,0,Arizona Diamondbacks,Milwaukee Brewers,2026-04-30T17:40:00Z,0.6332762837409973
+664040,Brandon Lowe,2B,2,,Hunter Dobbins,,0,0.27,0.72,0,St. Louis Cardinals,Pittsburgh Pirates,2026-04-30T16:35:00Z,0.6325052976608276
+621043,Carlos Correa,SS,1,,Chris Bassitt,,0,0.27,0.72,0,Houston Astros,Baltimore Orioles,2026-04-30T16:35:00Z,0.6312217473983764
+660670,Ronald Acuña,RF,1,,Framber Valdez,,0,0.27,0.72,0,Detroit Tigers,Atlanta Braves,2026-04-30T16:15:00Z,0.6283257722854614
+682998,Corbin Carroll,RF,3,,Brandon Woodruff,,0,0.27,0.72,0,Arizona Diamondbacks,Milwaukee Brewers,2026-04-30T17:40:00Z,0.6268988728523255
+682928,CJ Abrams,SS,4,,Freddy Peralta,,0,0.27,0.72,0,Washington Nationals,New York Mets,2026-04-30T17:10:00Z,0.6265490293502808
+666182,Bo Bichette,3B,1,,Miles Mikolas,,0,0.27,0.72,0,Washington Nationals,New York Mets,2026-04-30T17:10:00Z,0.6250548839569092
+691026,Masyn Winn,SS,6,,Paul Skenes,,0,0.27,0.72,0,St. Louis Cardinals,Pittsburgh Pirates,2026-04-30T16:35:00Z,0.6221277713775635
+661388,William Contreras,C,3,,Michael Soroka,,0,0.27,0.72,0,Arizona Diamondbacks,Milwaukee Brewers,2026-04-30T17:40:00Z,0.618907117843628
+514888,Jose Altuve,2B,5,,Chris Bassitt,,0,0.27,0.72,0,Houston Astros,Baltimore Orioles,2026-04-30T16:35:00Z,0.6182926535606384
+672580,Maikel Garcia,3B,1,,Jeffrey Springs,,0,0.27,0.72,0,Kansas City Royals,Athletics,2026-04-30T19:05:00Z,0.6165748000144958
+677951,Bobby Witt,SS,2,,Jeffrey Springs,,0,0.27,0.72,0,Kansas City Royals,Athletics,2026-04-30T19:05:00Z,0.6141639947891235
+691023,Jordan Walker,RF,4,,Paul Skenes,,0,0.27,0.72,0,St. Louis Cardinals,Pittsburgh Pirates,2026-04-30T16:35:00Z,0.6132819414138794
+624413,Pete Alonso,1B,4,,Peter Lambert,,0,0.27,0.72,0,Houston Astros,Baltimore Orioles,2026-04-30T16:35:00Z,0.6123472332954407
+701762,Nick Kurtz,1B,3,,Noah Cameron,,0,0.27,0.72,0,Kansas City Royals,Athletics,2026-04-30T19:05:00Z,0.6118574261665344
+671056,Iván Herrera,C,2,,Paul Skenes,,0,0.27,0.72,0,St. Louis Cardinals,Pittsburgh Pirates,2026-04-30T16:35:00Z,0.6107143521308899
+681198,TJ Rumfield,1B,6,,Andrew Abbott,,0,0.27,0.72,0,Colorado Rockies,Cincinnati Reds,2026-04-30T16:40:00Z,0.6095322132110595
+670770,TJ Friedl,CF,1,,Michael Lorenzen,,0,0.27,0.72,0,Colorado Rockies,Cincinnati Reds,2026-04-30T16:40:00Z,0.6080078840255737
+665833,Oneil Cruz,CF,1,,Hunter Dobbins,,0,0.27,0.72,0,St. Louis Cardinals,Pittsburgh Pirates,2026-04-30T16:35:00Z,0.6072646021842957
+669236,Jeremiah Jackson,2B,6,,Peter Lambert,,0,0.27,0.72,0,Houston Astros,Baltimore Orioles,2026-04-30T16:35:00Z,0.6058954477310181
+671289,Tyler Freeman,RF,4,,Andrew Abbott,,0,0.27,0.72,0,Colorado Rockies,Cincinnati Reds,2026-04-30T16:40:00Z,0.6027328372001648
+650402,Gleyber Torres,2B,2,,Bryce Elder,,0,0.27,0.72,0,Detroit Tigers,Atlanta Braves,2026-04-30T16:15:00Z,0.6004737615585327
+695578,James Wood,RF,1,,Freddy Peralta,,0,0.27,0.72,0,Washington Nationals,New York Mets,2026-04-30T17:10:00Z,0.5985721588134766
+643289,Mauricio Dubón,SS,6,,Framber Valdez,,0,0.27,0.72,0,Detroit Tigers,Atlanta Braves,2026-04-30T16:15:00Z,0.59853276014328
+695600,Carter Jensen,C,7,,Jeffrey Springs,,0,0.27,0.72,0,Kansas City Royals,Athletics,2026-04-30T19:05:00Z,0.5965764403343201
+668804,Bryan Reynolds,LF,3,,Hunter Dobbins,,0,0.27,0.72,0,St. Louis Cardinals,Pittsburgh Pirates,2026-04-30T16:35:00Z,0.5948196172714233
+673237,Yainer Diaz,C,6,,Chris Bassitt,,0,0.27,0.72,0,Houston Astros,Baltimore Orioles,2026-04-30T16:35:00Z,0.5944477915763855
+679529,Spencer Torkelson,1B,5,,Bryce Elder,,0,0.27,0.72,0,Detroit Tigers,Atlanta Braves,2026-04-30T16:15:00Z,0.590631115436554
+680574,Matt McLain,2B,2,,Michael Lorenzen,,0,0.27,0.72,0,Colorado Rockies,Cincinnati Reds,2026-04-30T16:40:00Z,0.5873682022094726
+804606,Konnor Griffin,SS,7,,Hunter Dobbins,,0,0.27,0.72,0,St. Louis Cardinals,Pittsburgh Pirates,2026-04-30T16:35:00Z,0.5847655653953552
+670623,Isaac Paredes,3B,3,,Chris Bassitt,,0,0.27,0.72,0,Houston Astros,Baltimore Orioles,2026-04-30T16:35:00Z,0.5796014070510864
+669357,Nolan Gorman,3B,5,,Paul Skenes,,0,0.27,0.72,0,St. Louis Cardinals,Pittsburgh Pirates,2026-04-30T16:35:00Z,0.5767200350761413
+543760,Marcus Semien,2B,6,,Miles Mikolas,,0,0.27,0.72,0,Washington Nationals,New York Mets,2026-04-30T17:10:00Z,0.5740457892417907
+690993,Colt Keith,3B,3,,Bryce Elder,,0,0.27,0.72,0,Detroit Tigers,Atlanta Braves,2026-04-30T16:15:00Z,0.5653775095939636
+701807,Carson Benge,LF,7,,Miles Mikolas,,0,0.27,0.72,0,Washington Nationals,New York Mets,2026-04-30T17:10:00Z,0.5621235847473145
+663586,Austin Riley,3B,5,,Framber Valdez,,0,0.27,0.72,0,Detroit Tigers,Atlanta Braves,2026-04-30T16:15:00Z,0.5612553119659424
+672695,Geraldo Perdomo,SS,1,,Brandon Woodruff,,0,0.27,0.72,0,Arizona Diamondbacks,Milwaukee Brewers,2026-04-30T17:40:00Z,0.5541839838027954
+687637,Dylan Beavers,RF,5,,Peter Lambert,,0,0.27,0.72,0,Houston Astros,Baltimore Orioles,2026-04-30T16:35:00Z,0.5517900943756103
+650859,Luis Rengifo,3B,6,,Michael Soroka,,0,0.27,0.72,0,Arizona Diamondbacks,Milwaukee Brewers,2026-04-30T17:40:00Z,0.5481427788734436
+663886,Tyler Stephenson,C,6,,Michael Lorenzen,,0,0.27,0.72,0,Colorado Rockies,Cincinnati Reds,2026-04-30T16:40:00Z,0.5463860392570495
+650489,Willi Castro,2B,5,,Andrew Abbott,,0,0.27,0.72,0,Colorado Rockies,Cincinnati Reds,2026-04-30T16:40:00Z,0.5413899660110474
+683146,Brett Baty,RF,5,,Miles Mikolas,,0,0.27,0.72,0,Washington Nationals,New York Mets,2026-04-30T17:10:00Z,0.5360781848430634
+671277,Luis García,1B,2,,Freddy Peralta,,0,0.27,0.72,0,Washington Nationals,New York Mets,2026-04-30T17:10:00Z,0.5279677212238312
+668901,Mark Vientos,1B,4,,Miles Mikolas,,0,0.27,0.72,0,Washington Nationals,New York Mets,2026-04-30T17:10:00Z,0.525725394487381
+657041,Lane Thomas,CF,3,,Jeffrey Springs,,0,0.27,0.72,0,Kansas City Royals,Athletics,2026-04-30T19:05:00Z,0.5257115066051483
+687462,Spencer Horwitz,1B,6,,Hunter Dobbins,,0,0.27,0.72,0,St. Louis Cardinals,Pittsburgh Pirates,2026-04-30T16:35:00Z,0.5255909621715545
+691720,Kyle Karros,3B,7,,Andrew Abbott,,0,0.27,0.72,0,Colorado Rockies,Cincinnati Reds,2026-04-30T16:40:00Z,0.5233486354351043
+683083,Nasim Nuñez,2B,7,,Freddy Peralta,,0,0.27,0.72,0,Washington Nationals,New York Mets,2026-04-30T17:10:00Z,0.5227015793323517
+701675,Nathan Church,LF,7,,Paul Skenes,,0,0.27,0.72,0,St. Louis Cardinals,Pittsburgh Pirates,2026-04-30T16:35:00Z,0.5188176810741425
+678391,Jorbit Vivas,3B,6,,Freddy Peralta,,0,0.27,0.72,0,Washington Nationals,New York Mets,2026-04-30T17:10:00Z,0.5102627635002136
+686217,Sal Frelick,RF,7,,Michael Soroka,,0,0.27,0.72,0,Arizona Diamondbacks,Milwaukee Brewers,2026-04-30T17:40:00Z,0.5088635385036469
+669003,Garrett Mitchell,CF,1,,Michael Soroka,,0,0.27,0.72,0,Arizona Diamondbacks,Milwaukee Brewers,2026-04-30T17:40:00Z,0.5067886233329773
+686668,Brenton Doyle,CF,2,,Andrew Abbott,,0,0.27,0.72,0,Colorado Rockies,Cincinnati Reds,2026-04-30T16:40:00Z,0.5038430154323578
+666126,Carlos Cortes,RF,6,,Noah Cameron,,0,0.27,0.72,0,Kansas City Royals,Athletics,2026-04-30T19:05:00Z,0.4968078136444092
+681481,Kerry Carpenter,RF,6,,Bryce Elder,,0,0.27,0.72,0,Detroit Tigers,Atlanta Braves,2026-04-30T16:15:00Z,0.49309262037277224
+680728,Adrian Del Castillo,C,4,,Brandon Woodruff,,0,0.27,0.72,0,Arizona Diamondbacks,Milwaukee Brewers,2026-04-30T17:40:00Z,0.4894151270389557
+681297,Colton Cowser,RF,7,,Peter Lambert,,0,0.27,0.72,0,Houston Astros,Baltimore Orioles,2026-04-30T16:35:00Z,0.47888228893280027
+687597,Jordan Beck,LF,1,,Andrew Abbott,,0,0.27,0.72,0,Colorado Rockies,Cincinnati Reds,2026-04-30T16:40:00Z,0.4554381012916565
+663837,Matt Vierling,CF,7,,Bryce Elder,,0,0.27,0.72,0,Detroit Tigers,Atlanta Braves,2026-04-30T16:15:00Z,0.44324967861175535
