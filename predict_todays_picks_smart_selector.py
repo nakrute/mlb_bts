@@ -34,6 +34,12 @@ try:
         ELITE_PITCHER_ERA,
         ELITE_PITCHER_WHIP,
         LATE_LINEUP_PENALTY_START,
+        MIN_ROLL7_HIT_GAME_RATE,
+        MIN_ROLL14_HIT_GAME_RATE,
+        MIN_ROLL7_AB_PER_GAME,
+        MAX_MATCHUP_SPLIT_K_PCT,
+        MIN_MATCHUP_SPLIT_PA,
+        LOW_MATCHUP_SPLIT_AVG,
         RISK_PENALTIES,
     )
 except ImportError:
@@ -45,12 +51,24 @@ except ImportError:
     ELITE_PITCHER_ERA = 3.30
     ELITE_PITCHER_WHIP = 1.15
     LATE_LINEUP_PENALTY_START = 6
+    MIN_ROLL7_HIT_GAME_RATE = 0.50
+    MIN_ROLL14_HIT_GAME_RATE = 0.50
+    MIN_ROLL7_AB_PER_GAME = 3.0
+    MAX_MATCHUP_SPLIT_K_PCT = 0.27
+    MIN_MATCHUP_SPLIT_PA = 20
+    LOW_MATCHUP_SPLIT_AVG = 0.240
     RISK_PENALTIES = {
         "elite_pitcher": 0.045,
         "late_lineup": 0.025,
         "unconfirmed_lineup": 0.020,
         "no_platoon_advantage": 0.010,
-        "low_recent_form": 0.020,
+        "low_roll7_hit_rate": 0.025,
+        "low_roll14_hit_rate": 0.020,
+        "low_recent_ab_volume": 0.020,
+        "high_matchup_k_rate": 0.030,
+        "small_matchup_split_sample": 0.010,
+        "weak_matchup_split_avg": 0.020,
+        "unknown_pitcher_hand": 0.015,
         "pitcher_park": 0.015,
     }
 
@@ -321,33 +339,56 @@ def _risk_flags_and_penalty(row: pd.Series) -> tuple[list[str], float]:
     pitcher_whip = _safe_float(row.get("pitcher_whip", 1.30), 1.30)
     lineup_position = _safe_int(row.get("lineup_position", 0), 0)
     roll7_hit_rate = _safe_float(row.get("roll7_hit_game_rate", 0.0), 0.0)
+    roll14_hit_rate = _safe_float(row.get("roll14_hit_game_rate", 0.0), 0.0)
+    roll7_ab_per_game = _safe_float(row.get("roll7_ab_per_game", 0.0), 0.0)
+    matchup_k_pct = _safe_float(row.get("matchup_split_k_pct", 0.0), 0.0)
+    matchup_pa = _safe_int(row.get("matchup_split_pa", 0), 0)
+    matchup_avg = _safe_float(row.get("matchup_split_avg", 0.270), 0.270)
     park_factor = _safe_float(row.get("park_factor", 1.0), 1.0)
     platoon_advantage = _safe_int(row.get("platoon_advantage", 0), 0)
+    opponent_pitcher_hand = str(row.get("opponent_pitcher_hand", "") or "").strip()
+
+    def add(flag: str) -> None:
+        flags.append(flag)
+        nonlocal penalty
+        penalty += RISK_PENALTIES.get(flag, 0.0)
 
     if pitcher_era <= ELITE_PITCHER_ERA and pitcher_whip <= ELITE_PITCHER_WHIP:
-        flags.append("elite_pitcher")
-        penalty += RISK_PENALTIES.get("elite_pitcher", 0.0)
+        add("elite_pitcher")
 
     if lineup_position == 0:
-        flags.append("unconfirmed_lineup")
-        penalty += RISK_PENALTIES.get("unconfirmed_lineup", 0.0)
+        add("unconfirmed_lineup")
     elif lineup_position >= LATE_LINEUP_PENALTY_START:
-        flags.append("late_lineup")
-        penalty += RISK_PENALTIES.get("late_lineup", 0.0)
+        add("late_lineup")
+
+    if not opponent_pitcher_hand:
+        add("unknown_pitcher_hand")
 
     if platoon_advantage == 0:
-        flags.append("no_platoon_advantage")
-        penalty += RISK_PENALTIES.get("no_platoon_advantage", 0.0)
+        add("no_platoon_advantage")
 
-    if roll7_hit_rate and roll7_hit_rate < 0.50:
-        flags.append("low_recent_form")
-        penalty += RISK_PENALTIES.get("low_recent_form", 0.0)
+    if roll7_hit_rate and roll7_hit_rate < MIN_ROLL7_HIT_GAME_RATE:
+        add("low_roll7_hit_rate")
+
+    if roll14_hit_rate and roll14_hit_rate < MIN_ROLL14_HIT_GAME_RATE:
+        add("low_roll14_hit_rate")
+
+    if roll7_ab_per_game and roll7_ab_per_game < MIN_ROLL7_AB_PER_GAME:
+        add("low_recent_ab_volume")
+
+    if matchup_k_pct and matchup_k_pct > MAX_MATCHUP_SPLIT_K_PCT:
+        add("high_matchup_k_rate")
+
+    if matchup_pa and matchup_pa < MIN_MATCHUP_SPLIT_PA:
+        add("small_matchup_split_sample")
+
+    if matchup_avg and matchup_avg < LOW_MATCHUP_SPLIT_AVG:
+        add("weak_matchup_split_avg")
 
     if park_factor < 0.98:
-        flags.append("pitcher_park")
-        penalty += RISK_PENALTIES.get("pitcher_park", 0.0)
+        add("pitcher_park")
 
-    return flags, min(penalty, 0.15)
+    return flags, min(penalty, 0.20)
 
 
 def _confidence_tier(adjusted_p_hit: float) -> str:
@@ -440,6 +481,7 @@ def save_candidates(candidates: pd.DataFrame, timestamp: str) -> None:
         "player_id", "player_name", "position", "lineup_position",
         "batter_bat_side", "opponent_pitcher_name", "opponent_pitcher_hand", "platoon_advantage",
         "matchup_split_avg", "matchup_split_ops", "matchup_split_pa",
+        "roll7_hit_game_rate", "roll14_hit_game_rate", "roll7_ab_per_game",
         "away_team", "home_team", "game_datetime",
         "p_hit", "risk_penalty", "adjusted_p_hit", "confidence_tier", "risk_flags"
     ]
@@ -505,6 +547,7 @@ def main():
         "player_id", "player_name", "position", "lineup_position",
         "batter_bat_side", "opponent_pitcher_name", "opponent_pitcher_hand", "platoon_advantage",
         "matchup_split_avg", "matchup_split_ops", "matchup_split_pa",
+        "roll7_hit_game_rate", "roll14_hit_game_rate", "roll7_ab_per_game",
         "away_team", "home_team", "game_datetime",
         "p_hit", "risk_penalty", "adjusted_p_hit", "confidence_tier", "risk_flags"
     ]

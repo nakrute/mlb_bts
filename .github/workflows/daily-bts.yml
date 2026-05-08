@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   schedule:
     # 12:00 PM Eastern during daylight saving time. Adjust seasonally if needed.
-    - cron: "0 16 * * *"
+    - cron: "0 14 * * *"
 
 jobs:
   build-and-predict:

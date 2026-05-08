@@ -122,6 +122,36 @@ MAX_LINEUP_POSITION = 7         # Don't pick 8/9 hitters (fewer PA)
 MIN_SEASON_PA = 50              # Ignore players with very few PA (sample size)
 MIN_CAREER_GAMES = 100          # Avoid rookies with no track record
 
+# BTS risk controls
+MIN_ADJUSTED_HIT_PROBABILITY = 0.56
+GREEN_LIGHT_THRESHOLD = 0.64
+BORDERLINE_THRESHOLD = 0.58
+ALLOW_SKIP_DAYS = False
+MAX_PICKS_PER_GAME = 1
+ELITE_PITCHER_ERA = 3.30
+ELITE_PITCHER_WHIP = 1.15
+LATE_LINEUP_PENALTY_START = 6
+MIN_ROLL7_HIT_GAME_RATE = 0.50
+MIN_ROLL14_HIT_GAME_RATE = 0.50
+MIN_ROLL7_AB_PER_GAME = 3.0
+MAX_MATCHUP_SPLIT_K_PCT = 0.27
+MIN_MATCHUP_SPLIT_PA = 20
+LOW_MATCHUP_SPLIT_AVG = 0.240
+RISK_PENALTIES = {
+    "elite_pitcher": 0.045,
+    "late_lineup": 0.025,
+    "unconfirmed_lineup": 0.020,
+    "no_platoon_advantage": 0.010,
+    "low_roll7_hit_rate": 0.025,
+    "low_roll14_hit_rate": 0.020,
+    "low_recent_ab_volume": 0.020,
+    "high_matchup_k_rate": 0.030,
+    "small_matchup_split_sample": 0.010,
+    "weak_matchup_split_avg": 0.020,
+    "unknown_pitcher_hand": 0.015,
+    "pitcher_park": 0.015,
+}
+
 # ──────────────────────────────────────────────
 # Logging
 # ──────────────────────────────────────────────
